@@ -1,23 +1,29 @@
 <template>
   <div>
-    <div id="main-title">
+    <div class="main-title">
       <a-row type="flex" justify="center" align="top">
-        <a-col :span="8">
-          <a-typography id="header"> 
-            <a-typography-title id="title">Делим счёт</a-typography-title>
-            <a-typography-title id="subtitle">Это просто!</a-typography-title>
+        <a-col :span="10">
+          <a-typography class="main-title__header">
+            <a-typography-title class="main-title__title"
+              >Делим счёт</a-typography-title
+            >
+            <a-typography-title class="main-title__subtitle"
+              >Это просто!</a-typography-title
+            >
           </a-typography>
         </a-col>
       </a-row>
     </div>
-    <div id="start-btn">
+    <div class="main-title__start-btn">
       <a-row type="flex" justify="center" align="top">
-        <a-button
-          class="get-started-btn"
-          type="primary"
-          @click="$router.push('/addfriends')"
-          >Начать!</a-button
-        >
+        <a-col :span="2">
+          <a-button
+            class="main-title__get-started-btn"
+            type="primary"
+            @click="$router.push('/addfriends')"
+            >Начать!</a-button
+          >
+        </a-col>
       </a-row>
     </div>
   </div>
@@ -36,10 +42,11 @@ $myGolden: #cebc81;
 $myWhite: whitesmoke;
 $myBlack: #19181a;
 
-#main-title {
+
+.main-title {
   margin-top: 70px;
 
-  #header {
+  .main-title__header {
     font-family: $fontName;
     background-color: $myGolden;
     border-radius: 0 40px;
@@ -48,21 +55,22 @@ $myBlack: #19181a;
     align-items: center;
     padding: 20px;
   }
-  #title {
+  
+  .main-title__title {
     margin: 5px auto;
     font-size: 5em;
     color: $myGreen;
   }
-  #subtitle {
+  .main-title__subtitle {
     font-size: 3em;
     color: $myGreen;
   }
 }
 
-#start-btn {
+.main-title__start-btn {
   margin-top: 2em;
 
-  .get-started-btn {
+  .main-title__get-started-btn {
     font-family: $fontName;
     color: $myWhite;
     font-size: 2em;

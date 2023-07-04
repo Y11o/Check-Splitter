@@ -6,12 +6,12 @@
           class="list_form"
           ref="formRef"
           name="dynamic_form_nest_item"
-          :model="dynamicValidateForm"
+          :model="dynamicValidateFormFriends"
           @finish="onFinish"
         >
           <a-space
             class="list"
-            v-for="(user, index) in dynamicValidateForm.users"
+            v-for="(user, index) in dynamicValidateFormFriends.users"
             :key="user.id"
             align="baseline"
           >
@@ -39,13 +39,21 @@
           </a-space>
 
           <a-form-item class="add_btn_form">
-            <a-button type="dashed" class="add_friend" block @click="addUser">
+            <a-button
+              type="dashed"
+              class="add_friend"
+              id="addFriend"
+              block
+              @click="addUser"
+            >
               <PlusOutlined />
               Добавь друга
             </a-button>
           </a-form-item>
           <a-form-item class="continue_btn_form">
-            <a-button class="continue_btn" type="primary">Далее</a-button>
+            <a-button class="continue_btn" @click="checkFriends">
+              Далее
+            </a-button>
           </a-form-item>
         </a-form>
       </div>
@@ -56,6 +64,7 @@
 <script>
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import { defineComponent, reactive, ref } from "vue";
+import router from "@/router/index.js";
 export default defineComponent({
   components: {
     DeleteOutlined,
@@ -63,31 +72,56 @@ export default defineComponent({
   },
   setup() {
     const formRef = ref();
-    const dynamicValidateForm = reactive({
+    const dynamicValidateFormFriends = reactive({
       users: [],
     });
     const removeUser = (item) => {
-      let index = dynamicValidateForm.users.indexOf(item);
+      let index = dynamicValidateFormFriends.users.indexOf(item);
       if (index !== -1) {
-        dynamicValidateForm.users.splice(index, 1);
+        dynamicValidateFormFriends.users.splice(index, 1);
       }
     };
     const addUser = () => {
-      dynamicValidateForm.users.push({
+      dynamicValidateFormFriends.users.push({
         name: "",
         id: Date.now(),
       });
+      addFriend.classList.remove("error");
+      addFriend.innerHTML = "Добавь друга";
+    };
+    const checkFriends = () => {
+      let nameFlag = false;
+      for (let index = 0; index < dynamicValidateFormFriends.users.length; index++) {
+        const element = dynamicValidateFormFriends.users[index];
+        if (element.name === "" || element.name === " ") {
+          nameFlag = true;
+        }
+      }
+      if (dynamicValidateFormFriends.users.length < 2 || nameFlag) {
+        if (dynamicValidateFormFriends.users.length < 2) {
+          addFriend.classList.add("error");
+          addFriend.innerHTML = "Пожалуйста, добавь хотя бы двух друзей!";
+        }
+        if (nameFlag) {
+          addFriend.classList.add("error");
+          addFriend.innerHTML = "Пожалуйста, введи имя друга!";
+          nameFlag = false;
+        }
+      } else {
+        router.push("/addgoods");
+      }
     };
     const onFinish = (values) => {
       console.log("Received values of form:", values);
-      console.log("dynamicValidateForm.users:", dynamicValidateForm.users);
+      console.log("dynamicValidateFormFriends.users:", dynamicValidateFormFriends.users);
     };
     return {
       formRef,
-      dynamicValidateForm,
+      dynamicValidateFormFriends,
       onFinish,
       removeUser,
       addUser,
+      checkFriends,
     };
   },
 });
@@ -125,8 +159,10 @@ $myBlack: #19181a;
       &:hover {
         border-color: $myPink;
       }
-      &:active {
+      &:focus {
         border-color: $myPink;
+        box-shadow: 2px 2px 2px 0px $myPink;
+        filter: drop-shadow(2px 2px 2px $myPink);
       }
     }
 
@@ -158,6 +194,10 @@ $myBlack: #19181a;
       &:hover {
         background-color: $myPink;
       }
+    }
+
+    .error {
+      background-color: $myRed;
     }
   }
 
