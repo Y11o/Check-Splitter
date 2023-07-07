@@ -9,40 +9,92 @@
             :key="good.id"
             align="baseline"
           >
-            <a-form-item
-              class="form"
-              :rules="{
-                required: true,
-                message: 'Введите название продукта',
-              }"
-            >
-              <a-input
-                v-bind:value="goods[index].name"
-                @input="goods[index].name = $event.target.value"
-                class="goods_form__input_form"
-                placeholder="Название"
-              />
-            </a-form-item>
-            <a-form-item
-              class="form"
-              :rules="{
-                required: true,
-                message: 'Введите цену продукта',
-              }"
-            >
-              <a-input
-                v-bind:value="goods[index].price"
-                @input="goods[index].price = $event.target.value"
-                class="goods_form__input_form"
-                type="number"
-                placeholder="Цена"
-              />
-            </a-form-item>
-            <DeleteOutlined
-              class="goods_form__delete_good"
-              @click="removeGood(good)"
-              v-if="goods.length > 2"
-            />
+            <div class="goods_form__goodCard">
+              <div class="goods_form__cardsName">
+                <a-form-item
+                  class="form"
+                  style="margin-right: 10px"
+                  :rules="{
+                    required: true,
+                    message: 'Введите название продукта',
+                  }"
+                >
+                  <a-input
+                    v-bind:value="goods[index].name"
+                    @input="goods[index].name = $event.target.value"
+                    class="goods_form__input_form"
+                    placeholder="Название"
+                  />
+                </a-form-item>
+                <a-form-item
+                  class="form"
+                  :rules="{
+                    required: true,
+                    message: 'Введите цену продукта',
+                  }"
+                >
+                  <a-input
+                    v-bind:value="goods[index].price"
+                    @input="goods[index].price = $event.target.value"
+                    class="goods_form__input_form"
+                    type="number"
+                    placeholder="Цена"
+                  />
+                </a-form-item>
+                <DeleteOutlined
+                  class="goods_form__delete_good"
+                  @click="removeGood(good)"
+                  v-if="goods.length > 2"
+                />
+              </div>
+              <div class="goods_form__cardsDescription">
+                <a-collapse
+                  v-model:activeKey="activeKey"
+                  style="background-color: #ebe3ca"
+                  :bordered="false"
+                  :accordion="true"
+                >
+                  <template #expandIcon="{ isActive }">
+                    <caret-right-outlined :rotate="isActive ? 90 : 0" />
+                  </template>
+                  <a-collapse-panel :key="good.id" header="">
+                    <div class="goods_form__cardsDescriptionContent">
+                      <div
+                        class="goods_form__whoAte"
+                        v-for="(user, userIndex) in users"
+                        :key="user.id"
+                      >
+                        <div class="avatar">
+                          <a-avatar
+                            v-if="userIndex % 2 === 1"
+                            class="avatarPink"
+                            ><div v-if="user !== undefined">
+                              {{ user.name[0] }}
+                            </div></a-avatar
+                          >
+
+                          <a-avatar
+                            v-if="userIndex % 2 === 0"
+                            class="avatarGreen"
+                            ><div v-if="user !== undefined">
+                              {{ user.name[0] }}
+                            </div></a-avatar
+                          >
+                        </div>
+                        <input
+                          type="checkbox"
+                          :value="user.id"
+                          v-model="goods[index].goodDescribe.whoAte"
+                        />
+                        <label class="goods_form__userName">{{ user.name }}</label>
+                        <div class="goods_form__check"></div>
+                      </div>
+                      <div class="goods_form__whoPaid"></div>
+                    </div>
+                  </a-collapse-panel>
+                </a-collapse>
+              </div>
+            </div>
           </a-space>
           <a-form-item class="goods_form__add_btn_form">
             <a-button
@@ -67,12 +119,20 @@
 </template>
 
 <script>
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  CaretRightOutlined,
+} from "@ant-design/icons-vue";
+import store from "@/store/index.js";
+import { ref } from "vue";
 import router from "@/router/index.js";
 export default {
   components: {
     DeleteOutlined,
     PlusOutlined,
+    CaretRightOutlined,
+    store,
   },
   data() {
     return {
@@ -123,6 +183,8 @@ export default {
     },
     checkGoods() {
       let errorFlag = false;
+      let countFlag = false;
+      if (this.goods.length < 2) countFlag = true;
       for (let index = 0; index < this.goods.length; index++) {
         const element = this.goods[index];
         if (
@@ -130,7 +192,8 @@ export default {
           element.name === " " ||
           element.price === undefined ||
           element.price === "" ||
-          element.price === " "
+          element.price === " " ||
+          element.goodDescribe.whoAte === []
         ) {
           errorFlag = true;
         }
@@ -139,11 +202,48 @@ export default {
         goodAdder.classList.add("error");
         goodAdder.innerHTML = "Пожалуйста, введи всю информацию о позиции!";
         errorFlag = false;
+      } else if (countFlag) {
+        goodAdder.classList.add("error");
+        goodAdder.innerHTML = "Пожалуйста, введи хотя бы две позиции!";
+        countFlag = false;
       } else {
+        let jsonGoods = [];
+        for (let elem = 0; elem < this.goods.length; elem++) {
+          const element = JSON.stringify(this.goods[elem]);
+          jsonGoods.push(element);
+        }
+        localStorage.setItem("storedGoodsData", JSON.stringify(jsonGoods));
         this.$store.dispatch("loadGoods", this.goods);
         router.push("/results");
       }
     },
+  },
+  setup() {
+    const activeKey = ref(["1"]);
+    const storeUsers = store.getters.getUsersFromStore;
+    const users = [];
+    for (let index = 0; index < storeUsers.length; index++) {
+      users.push({id: storeUsers[index].id, name: storeUsers[index].name});
+    }
+    return {
+      activeKey,
+      users,
+    };
+  },
+  mounted() {
+    if (localStorage.storedGoodsData) {
+      let storedGoods = JSON.parse(localStorage.storedGoodsData);
+      for (let elem = 0; elem < storedGoods.length; elem++) {
+        this.goods.push({ id: Date.now(), name: "" });
+        const goodsParsed = JSON.parse(storedGoods[elem]);
+        this.goods[elem].id = goodsParsed.id;
+        this.goods[elem].name = goodsParsed.name;
+        this.goods[elem].price = goodsParsed.price;
+        this.goods[elem].goodDescribe = goodsParsed.goodDescribe;
+      }
+    }
+    this.goods.length = this.goods.length - 2;
+    localStorage.clear;
   },
 };
 </script>
@@ -173,11 +273,45 @@ input::-webkit-inner-spin-button {
   display: flex;
   flex-direction: column;
 
+  .goods_form__goodCard {
+    .goods_form__cardsName {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+    .goods_form__cardsDescription {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      background-color: $myLightGolden;
+
+      .goods_form__cardsDescriptionContent {
+        .goods_form__whoPaid {
+        }
+        .goods_form__whoAte {
+          margin: auto 5px;
+          display: flex;
+          flex-direction: row;
+
+          .goods_form__userName {
+            margin: 5px 20px;
+          }
+          .avatar {
+            margin: 3px 20px;
+          }
+        }
+      }
+    }
+  }
+
   .goods_form__list {
     display: flex;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin-bottom: 5px;
     margin-top: 10px;
     justify-content: center;
+    border-color: $myPink;
 
     .goods_form__input_form {
       background-color: $myLightGolden;
@@ -195,6 +329,8 @@ input::-webkit-inner-spin-button {
 
     .goods_form__delete_good {
       color: $myRed;
+      margin-left: 10px;
+      margin-bottom: 30px;
       &:hover {
         color: $myPink;
       }
@@ -217,6 +353,13 @@ input::-webkit-inner-spin-button {
     .error {
       background-color: $myRed;
     }
+  }
+
+  .avatarPink {
+    background-color: $myPink;
+  }
+  .avatarGreen {
+    background-color: $myGreen;
   }
 
   .goods_form__continue_btn_form {

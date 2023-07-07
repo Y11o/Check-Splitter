@@ -105,6 +105,8 @@ export default {
     },
     checkFriends() {
       let nameFlag = false;
+      let countFlag = false;
+      if (this.users.length < 2) countFlag = true;
       for (let index = 0; index < this.users.length; index++) {
         const element = this.users[index];
         if (element.name === "" || element.name === " ") {
@@ -115,11 +117,34 @@ export default {
         addFriend.classList.add("error");
         addFriend.innerHTML = "Пожалуйста, введи имя друга!";
         nameFlag = false;
+      } else if (countFlag) {
+        addFriend.classList.add("error");
+        addFriend.innerHTML = "Пожалуйста, введи имена хотя бы двух друзей!";
+        countFlag = false;
       } else {
+        let jsonUsers = [];
+        for (let elem = 0; elem < this.users.length; elem++) {
+          const element = JSON.stringify(this.users[elem]);
+          jsonUsers.push(element);
+        }
+        localStorage.setItem("storedUsersData", JSON.stringify(jsonUsers));
         this.$store.dispatch("loadUsers", this.users);
         router.push("/addgoods");
       }
     },
+  },
+  mounted() {
+    if (localStorage.storedUsersData) {
+      let storedUsers = JSON.parse(localStorage.storedUsersData);
+      for (let elem = 0; elem < storedUsers.length; elem++) {
+        this.users.push({ id: Date.now(), name: "" });
+        const userParsed = JSON.parse(storedUsers[elem]);
+        this.users[elem].id = userParsed.id;
+        this.users[elem].name = userParsed.name;
+      }
+    }
+    this.users.length = this.users.length - 2;
+    localStorage.clear;
   },
 };
 </script>
