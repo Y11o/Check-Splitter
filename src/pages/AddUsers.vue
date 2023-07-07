@@ -2,28 +2,25 @@
   <a-row type="flex" justify="center" align="top">
     <a-col :span="12">
       <div class="friendsList">
-        <a-form
-          class="list_form"
-          ref="formRef"
-          name="dynamic_form_nest_item"
-          :model="dynamicValidateFormFriends"
-          @finish="onFinish"
-        >
+        <a-form @submit.prevent class="list_form" @finish="onFinish">
           <a-space
             class="list"
-            v-for="(user, index) in dynamicValidateFormFriends.users"
+            v-for="(user, index) in users"
             :key="user.id"
             align="baseline"
           >
-            <a-avatar v-if="index % 2 === 1" class="avatarPink">{{
-              user.name[0]
-            }}</a-avatar>
-            <a-avatar v-if="index % 2 === 0" class="avatarGreen">{{
-              user.name[0]
-            }}</a-avatar>
+            <a-avatar v-if="index % 2 === 1" class="avatarPink"
+              ><div v-if="user.name !== undefined">
+                {{ user.name[0] }}
+              </div></a-avatar
+            >
+            <a-avatar v-if="index % 2 === 0" class="avatarGreen"
+              ><div v-if="user.name !== undefined">
+                {{ user.name[0] }}
+              </div></a-avatar
+            >
             <a-form-item
               class="form"
-              :name="['users', index, 'name']"
               :rules="{
                 required: true,
                 message: 'Введите имя!',
@@ -31,27 +28,32 @@
             >
               <a-input
                 class="input_form"
-                v-model:value="user.name"
+                v-bind:value="users[index].name"
+                @input="users[index].name = $event.target.value"
                 placeholder="Имя друга"
               />
             </a-form-item>
-            <DeleteOutlined class="delete_friend" @click="removeUser(user)" />
+            <DeleteOutlined
+              class="delete_friend"
+              @click="removeUser(user)"
+              v-if="users.length > 2"
+            />
           </a-space>
 
           <a-form-item class="add_btn_form">
-            <a-button
-              type="dashed"
-              class="add_friend"
-              id="addFriend"
-              block
-              @click="addUser"
-            >
+            <a-button class="add_friend" id="addFriend" block @click="addUser">
               <PlusOutlined />
               Добавь друга
             </a-button>
           </a-form-item>
           <a-form-item class="continue_btn_form">
-            <a-button class="continue_btn" @click="checkFriends">
+            <a-button
+              class="continue_btn"
+              @click="
+                $store.commit('setUsers(users)');
+                checkFriends();
+              "
+            >
               Далее
             </a-button>
           </a-form-item>
@@ -63,68 +65,65 @@
 
 <script>
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
-import { defineComponent, reactive, ref } from "vue";
 import router from "@/router/index.js";
-export default defineComponent({
+export default {
   components: {
     DeleteOutlined,
     PlusOutlined,
   },
-  setup() {
-    const formRef = ref();
-    const dynamicValidateFormFriends = reactive({
-      users: [],
-    });
-    const removeUser = (item) => {
-      let index = dynamicValidateFormFriends.users.indexOf(item);
-      if (index !== -1) {
-        dynamicValidateFormFriends.users.splice(index, 1);
-      }
+  data() {
+    return {
+      users: [
+        {
+          id: Date.now() + 1,
+          name: "",
+        },
+        {
+          id: Date.now() + 2,
+          name: "",
+        },
+      ],
     };
-    const addUser = () => {
-      dynamicValidateFormFriends.users.push({
-        name: "",
+  },
+  methods: {
+    addUser() {
+      const newUser = {
         id: Date.now(),
-      });
+        name: "",
+      };
+      this.users.push(newUser);
+      this.$store.dispatch("loadUsers", this.users);
       addFriend.classList.remove("error");
       addFriend.innerHTML = "Добавь друга";
-    };
-    const checkFriends = () => {
+    },
+    removeUser(item) {
+      let index = this.users.indexOf(item);
+      if (index !== -1) {
+        this.users.splice(index, 1);
+      }
+      this.$store.dispatch("loadUsers", this.users);
+    },
+    checkFriends() {
       let nameFlag = false;
-      for (let index = 0; index < dynamicValidateFormFriends.users.length; index++) {
-        const element = dynamicValidateFormFriends.users[index];
+      for (let index = 0; index < this.users.length; index++) {
+        const element = this.users[index];
         if (element.name === "" || element.name === " ") {
           nameFlag = true;
         }
       }
-      if (dynamicValidateFormFriends.users.length < 2 || nameFlag) {
-        if (dynamicValidateFormFriends.users.length < 2) {
-          addFriend.classList.add("error");
-          addFriend.innerHTML = "Пожалуйста, добавь хотя бы двух друзей!";
-        }
+      if (nameFlag) {
         if (nameFlag) {
           addFriend.classList.add("error");
           addFriend.innerHTML = "Пожалуйста, введи имя друга!";
           nameFlag = false;
         }
       } else {
+        this.$store.dispatch("loadUsers", this.users);
         router.push("/addgoods");
       }
-    };
-    const onFinish = (values) => {
-      console.log("Received values of form:", values);
-      console.log("dynamicValidateFormFriends.users:", dynamicValidateFormFriends.users);
-    };
-    return {
-      formRef,
-      dynamicValidateFormFriends,
-      onFinish,
-      removeUser,
-      addUser,
-      checkFriends,
-    };
-  },
-});
+    },
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -136,6 +135,12 @@ $myGolden: #cebc81;
 $myLightGolden: #ebe3ca;
 $myWhite: whitesmoke;
 $myBlack: #19181a;
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 .friendsList {
   font-family: $fontName;
@@ -183,13 +188,11 @@ $myBlack: #19181a;
 
   .add_btn_form {
     margin-top: 10px;
-    background-color: $myBlack;
 
     .add_friend {
       color: $myWhite;
       background-color: $myGreen;
       border: none;
-      border-radius: 20px;
 
       &:hover {
         background-color: $myPink;

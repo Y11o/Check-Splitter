@@ -77,13 +77,16 @@
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import { defineComponent, reactive, ref } from "vue";
 import router from "@/router/index.js";
+import users from "@/pages/AddUsers.vue";
 export default defineComponent({
   components: {
     DeleteOutlined,
     PlusOutlined,
+    users,
   },
   setup() {
     const formRef = ref();
+    const listOfFriends = sessionStorage.getItem('friendListStorage');
     const dynamicValidateFormGoods = reactive({
       goods: [],
     });
@@ -99,6 +102,7 @@ export default defineComponent({
         goodPrice: "",
         id: Date.now(),
       });
+      console.log(users);
     };
     const checkGoods = () => {
       let choosenFlag = false;
@@ -200,13 +204,11 @@ input::-webkit-inner-spin-button {
 
   .goods_form__add_btn_form {
     margin-top: 10px;
-    background-color: $myBlack;
 
     .goods_form__add_good {
       color: $myWhite;
       background-color: $myGreen;
       border: none;
-      border-radius: 20px;
 
       &:hover {
         background-color: $myPink;
