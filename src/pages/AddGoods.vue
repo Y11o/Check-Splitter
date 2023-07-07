@@ -128,7 +128,9 @@ export default {
         if (
           element.name === "" ||
           element.name === " " ||
-          element.price === undefined
+          element.price === undefined ||
+          element.price === "" ||
+          element.price === " "
         ) {
           errorFlag = true;
         }
