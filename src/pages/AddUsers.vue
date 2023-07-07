@@ -2,7 +2,7 @@
   <a-row type="flex" justify="center" align="top">
     <a-col :span="12">
       <div class="friendsList">
-        <a-form @submit.prevent class="list_form" @finish="onFinish">
+        <a-form @submit.prevent class="list_form">
           <a-space
             class="list"
             v-for="(user, index) in users"
@@ -112,17 +112,15 @@ export default {
         }
       }
       if (nameFlag) {
-        if (nameFlag) {
-          addFriend.classList.add("error");
-          addFriend.innerHTML = "Пожалуйста, введи имя друга!";
-          nameFlag = false;
-        }
+        addFriend.classList.add("error");
+        addFriend.innerHTML = "Пожалуйста, введи имя друга!";
+        nameFlag = false;
       } else {
         this.$store.dispatch("loadUsers", this.users);
         router.push("/addgoods");
       }
     },
-  }
+  },
 };
 </script>
 

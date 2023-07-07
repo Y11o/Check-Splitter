@@ -2,41 +2,37 @@
   <a-row type="flex" justify="center" align="top">
     <a-col :span="12">
       <div class="goods_form">
-        <a-form
-          ref="formRef"
-          name="dynamic_form_nest_item"
-          :model="dynamicValidateFormGoods"
-          @finish="onFinish"
-        >
+        <a-form class="goods" @submit.prevent>
           <a-space
             class="goods_form__list"
-            v-for="(user, index) in dynamicValidateFormGoods.goods"
-            :key="user.id"
-            style="display: flex; margin-bottom: 8px"
+            v-for="(good, index) in goods"
+            :key="good.id"
             align="baseline"
           >
             <a-form-item
-              :name="['goods', index, 'goodName']"
+              class="form"
               :rules="{
                 required: true,
                 message: 'Введите название продукта',
               }"
             >
               <a-input
-                v-model:value="user.goodName"
+                v-bind:value="goods[index].name"
+                @input="goods[index].name = $event.target.value"
                 class="goods_form__input_form"
                 placeholder="Название"
               />
             </a-form-item>
             <a-form-item
-              :name="['goods', index, 'goodPrice']"
+              class="form"
               :rules="{
                 required: true,
                 message: 'Введите цену продукта',
               }"
             >
               <a-input
-                v-model:value="user.goodPrice"
+                v-bind:value="goods[index].price"
+                @input="goods[index].price = $event.target.value"
                 class="goods_form__input_form"
                 type="number"
                 placeholder="Цена"
@@ -44,27 +40,23 @@
             </a-form-item>
             <DeleteOutlined
               class="goods_form__delete_good"
-              @click="removeGood(user)"
+              @click="removeGood(good)"
+              v-if="goods.length > 2"
             />
           </a-space>
           <a-form-item class="goods_form__add_btn_form">
             <a-button
-              type="dashed"
               block
               @click="addGood"
               id="goodAdder"
               class="goods_form__add_good"
             >
               <PlusOutlined />
-              Добавить позицию
+              Добавь позицию
             </a-button>
           </a-form-item>
           <a-form-item class="goods_form__continue_btn_form">
-            <a-button
-              type="primary"
-              html-type="submit"
-              class="goods_form__continue_btn"
-              @click="checkGoods"
+            <a-button class="goods_form__continue_btn" @click="checkGoods()"
               >К результатам</a-button
             >
           </a-form-item>
@@ -73,80 +65,85 @@
     </a-col>
   </a-row>
 </template>
+
 <script>
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
-import { defineComponent, reactive, ref } from "vue";
 import router from "@/router/index.js";
-import users from "@/pages/AddUsers.vue";
-export default defineComponent({
+export default {
   components: {
     DeleteOutlined,
     PlusOutlined,
-    users,
   },
-  setup() {
-    const formRef = ref();
-    const listOfFriends = sessionStorage.getItem('friendListStorage');
-    const dynamicValidateFormGoods = reactive({
-      goods: [],
-    });
-    const removeGood = (item) => {
-      let index = dynamicValidateFormGoods.goods.indexOf(item);
-      if (index !== -1) {
-        dynamicValidateFormGoods.goods.splice(index, 1);
-      }
+  data() {
+    return {
+      goods: [
+        {
+          id: Date.now() + 1,
+          name: "",
+          price: undefined,
+          goodDescribe: {
+            whoPaid: "",
+            whoAte: [],
+          },
+        },
+        {
+          id: Date.now() + 2,
+          name: "",
+          price: undefined,
+          goodDescribe: {
+            whoPaid: "",
+            whoAte: [],
+          },
+        },
+      ],
     };
-    const addGood = () => {
-      dynamicValidateFormGoods.goods.push({
-        goodName: "",
-        goodPrice: "",
+  },
+  methods: {
+    addGood() {
+      const newGood = {
         id: Date.now(),
-      });
-      console.log(users);
-    };
-    const checkGoods = () => {
-      let choosenFlag = false;
-      for (
-        let index = 0;
-        index < dynamicValidateFormGoods.goods.length;
-        index++
-      ) {
-        const element = dynamicValidateFormGoods.goods[index];
-        if (element.name === "" || element.name === " ") {
-          choosenFlag = true;
+        name: "",
+        price: undefined,
+        goodDescribe: {
+          whoPaid: "",
+          whoAte: [],
+        },
+      };
+      this.goods.push(newGood);
+      this.$store.dispatch("loadGoods", this.goods);
+      goodAdder.classList.remove("error");
+      goodAdder.innerHTML = "Добавь позицию";
+    },
+    removeGood(item) {
+      let index = this.goods.indexOf(item);
+      if (index !== -1) {
+        this.goods.splice(index, 1);
+      }
+      this.$store.dispatch("loadGoods", this.goods);
+    },
+    checkGoods() {
+      let errorFlag = false;
+      for (let index = 0; index < this.goods.length; index++) {
+        const element = this.goods[index];
+        if (
+          element.name === "" ||
+          element.name === " " ||
+          element.price === undefined
+        ) {
+          errorFlag = true;
         }
       }
-      if (dynamicValidateFormGoods.goods.length < 2 || choosenFlag) {
-        if (dynamicValidateFormGoods.goods.length < 2) {
-          goodAdder.classList.add("error");
-          goodAdder.innerHTML = "Пожалуйста, добавь хотя бы две позиции!";
-        }
-        if (choosenFlag) {
-          goodAdder.classList.add("error");
-          goodAdder.innerHTML = "Пожалуйста, введи имя друга!";
-          choosenFlag = false;
-        }
+      if (errorFlag) {
+        goodAdder.classList.add("error");
+        goodAdder.innerHTML = "Пожалуйста, введи всю информацию о позиции!";
+        errorFlag = false;
       } else {
+        this.$store.dispatch("loadGoods", this.goods);
         router.push("/results");
       }
-    };
-    const onFinish = (values) => {
-      console.log("Received values of form:", values);
-      console.log(
-        "dynamicValidateFormGoods.goods:",
-        dynamicValidateFormGoods.goods
-      );
-    };
-    return {
-      formRef,
-      dynamicValidateFormGoods,
-      onFinish,
-      removeGood,
-      addGood,
-      checkGoods,
-    };
+    },
   },
-});
+};
 </script>
 
 <style lang="scss" scoped>
