@@ -1,6 +1,6 @@
 <template>
   <a-row type="flex" justify="center" align="top">
-    <a-col :span="12">
+    <a-col :xs="{span: 32}" :sm="{span: 18}" :md="{span: 16}" :lg="{span: 8}">
       <div class="friendsList">
         <a-form @submit.prevent class="list_form">
           <a-space
@@ -156,21 +156,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$fontName: "Montserrat Alternates", sans-serif;
-$myGreen: #479761;
-$myRed: #b22222;
-$myPink: #a16e83;
-$myGolden: #cebc81;
-$myLightGolden: #ebe3ca;
-$myWhite: whitesmoke;
-$myBlack: #19181a;
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 .friendsList {
   font-family: $fontName;
   margin-top: 100px;

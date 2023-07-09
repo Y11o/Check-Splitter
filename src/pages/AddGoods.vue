@@ -1,6 +1,6 @@
 <template>
   <a-row type="flex" justify="center" align="top">
-    <a-col :span="12">
+    <a-col :xs="{span: 32}" :sm="{span: 18}" :md="{span: 16}" :lg="{span: 8}">
       <div class="goods_form">
         <a-form class="goods" @submit.prevent>
           <a-space
@@ -261,11 +261,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
 .goods_form {
   font-family: $fontName;

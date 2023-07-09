@@ -1,9 +1,9 @@
 <template>
   <a-row type="flex" justify="center" align="top">
-    <a-col :span="12">
+    <a-col :xs="{span: 32}" :sm="{span: 18}" :md="{span: 16}" :lg="{span: 8}">
       <div class="results">
         <a-typography class="results__frame">
-          <a-typography-title class="results__mainHeader"
+          <a-typography-title class="results__mainHeader" :level="1"
             >Результаты!</a-typography-title
           >
           <div class="results__mainBody" v-for="(user, index) in users" :key="user.id">
@@ -68,6 +68,7 @@ export default {
   border-radius: 20px;
 
   .results__frame {
+    
     .results__mainHeader {
       background-color: $myLightGolden;
       color: $myGreen;
