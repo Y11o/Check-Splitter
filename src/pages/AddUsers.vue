@@ -168,6 +168,8 @@ input::-webkit-inner-spin-button {
 .friendsList {
   font-family: $fontName;
   margin-top: 100px;
+  margin-bottom: 100px;
+  padding: 10px;
   background-color: $myGolden;
   border: none;
   border-radius: 20px;

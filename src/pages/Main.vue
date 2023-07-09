@@ -45,6 +45,8 @@ $myBlack: #19181a;
 
 .main-title {
   margin-top: 70px;
+  margin-bottom: 100px;
+  padding: 10px;
 
   .main-title__header {
     font-family: $fontName;

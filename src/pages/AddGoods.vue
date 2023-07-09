@@ -83,10 +83,13 @@
                         </div>
                         <input
                           type="checkbox"
+                          class="goods_form__checkbox"
                           :value="user.id"
                           v-model="goods[index].goodDescribe.whoAte"
                         />
-                        <label class="goods_form__userName">{{ user.name }}</label>
+                        <label class="goods_form__userName">{{
+                          user.name
+                        }}</label>
                         <div class="goods_form__check"></div>
                       </div>
                       <div class="goods_form__whoPaid"></div>
@@ -223,7 +226,7 @@ export default {
     const storeUsers = store.getters.getUsersFromStore;
     const users = [];
     for (let index = 0; index < storeUsers.length; index++) {
-      users.push({id: storeUsers[index].id, name: storeUsers[index].name});
+      users.push({ id: storeUsers[index].id, name: storeUsers[index].name });
     }
     return {
       activeKey,
@@ -267,6 +270,8 @@ input::-webkit-inner-spin-button {
 .goods_form {
   font-family: $fontName;
   margin-top: 100px;
+  margin-bottom: 100px;
+  padding: 10px;
   background-color: $myGolden;
   border: none;
   border-radius: 20px;
@@ -344,6 +349,7 @@ input::-webkit-inner-spin-button {
       color: $myWhite;
       background-color: $myGreen;
       border: none;
+      padding: 0px;
 
       &:hover {
         background-color: $myPink;
