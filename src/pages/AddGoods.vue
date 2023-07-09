@@ -287,8 +287,8 @@ export default {
       background-color: $myLightGolden;
 
       .goods_form__cardsDescriptionContent {
-        .goods_form__whoPaid {
-        }
+        // .goods_form__whoPaid {
+        // }
         .goods_form__whoAte {
           margin: auto 5px;
           display: flex;
