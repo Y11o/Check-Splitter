@@ -135,15 +135,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$fontName: "Montserrat Alternates", sans-serif;
-$myGreen: #479761;
-$myRed: #b22222;
-$myPink: #a16e83;
-$myGolden: #cebc81;
-$myLightGolden: #ebe3ca;
-$myWhite: whitesmoke;
-$myBlack: #19181a;
-
 .friendsList {
   font-family: $fontName;
   margin-top: 100px;

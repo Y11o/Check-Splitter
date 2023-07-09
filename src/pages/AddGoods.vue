@@ -57,7 +57,7 @@
                   <template #expandIcon="{ isActive }">
                     <caret-right-outlined :rotate="isActive ? 90 : 0" />
                   </template>
-                  <a-collapse-panel :key="good.id" header="">
+                  <a-collapse-panel :key="good.id" header=""> 
                     <div class="goods_form__cardsDescriptionContent">
                       <div
                         class="goods_form__whoAte"
@@ -66,7 +66,7 @@
                       >
                         <div class="avatar">
                           <a-avatar
-                            v-if="userIndex % 2 === 1"
+                            v-if="!goods[index].goodDescribe.whoAte.includes(user.id)"
                             class="avatarPink"
                             ><div v-if="user !== undefined">
                               {{ user.name[0] }}
@@ -74,7 +74,7 @@
                           >
 
                           <a-avatar
-                            v-if="userIndex % 2 === 0"
+                            v-if="goods[index].goodDescribe.whoAte.includes(user.id)"
                             class="avatarGreen"
                             ><div v-if="user !== undefined">
                               {{ user.name[0] }}
@@ -261,15 +261,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$fontName: "Montserrat Alternates", sans-serif;
-$myGreen: #479761;
-$myRed: #b22222;
-$myPink: #a16e83;
-$myGolden: #cebc81;
-$myLightGolden: #ebe3ca;
-$myWhite: whitesmoke;
-$myBlack: #19181a;
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
