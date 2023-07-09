@@ -86,13 +86,16 @@ export default {
     };
   },
   methods: {
+    setUsers() {
+      this.$store.dispatch("loadUsers", this.users);
+    },
     addUser() {
       const newUser = {
         id: Date.now(),
         name: "",
       };
       this.users.push(newUser);
-      this.$store.dispatch("loadUsers", this.users);
+      this.setUsers();
       addFriend.classList.remove("error");
       addFriend.innerHTML = "Добавь друга";
     },
@@ -101,7 +104,7 @@ export default {
       if (index !== -1) {
         this.users.splice(index, 1);
       }
-      this.$store.dispatch("loadUsers", this.users);
+      this.setUsers();
     },
     checkFriends() {
       let nameFlag = false;
@@ -128,7 +131,7 @@ export default {
           jsonUsers.push(element);
         }
         localStorage.setItem("storedUsersData", JSON.stringify(jsonUsers));
-        this.$store.dispatch("loadUsers", this.users);
+        this.setUsers();
         router.push("/addgoods");
       }
     },
@@ -145,6 +148,9 @@ export default {
     }
     this.users.length = this.users.length - 2;
     localStorage.clear;
+  },
+  beforeMount() {
+    this.setUsers();
   },
 };
 </script>

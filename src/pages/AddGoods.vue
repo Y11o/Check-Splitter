@@ -159,9 +159,13 @@ export default {
           },
         },
       ],
+      users:[],
     };
   },
   methods: {
+    setGoods() {
+      this.$store.dispatch("loadGoods", this.goods);
+    },
     addGood() {
       const newGood = {
         id: Date.now(),
@@ -173,7 +177,7 @@ export default {
         },
       };
       this.goods.push(newGood);
-      this.$store.dispatch("loadGoods", this.goods);
+      this.setGoods();
       goodAdder.classList.remove("error");
       goodAdder.innerHTML = "Добавь позицию";
     },
@@ -182,7 +186,7 @@ export default {
       if (index !== -1) {
         this.goods.splice(index, 1);
       }
-      this.$store.dispatch("loadGoods", this.goods);
+      this.setGoods();
     },
     checkGoods() {
       let errorFlag = false;
@@ -216,21 +220,15 @@ export default {
           jsonGoods.push(element);
         }
         localStorage.setItem("storedGoodsData", JSON.stringify(jsonGoods));
-        this.$store.dispatch("loadGoods", this.goods);
+        this.setGoods();
         router.push("/results");
       }
     },
   },
   setup() {
     const activeKey = ref(["1"]);
-    const storeUsers = store.getters.getUsersFromStore;
-    const users = [];
-    for (let index = 0; index < storeUsers.length; index++) {
-      users.push({ id: storeUsers[index].id, name: storeUsers[index].name });
-    }
     return {
       activeKey,
-      users,
     };
   },
   mounted() {
@@ -247,6 +245,17 @@ export default {
     }
     this.goods.length = this.goods.length - 2;
     localStorage.clear;
+  },
+  beforeMount() {
+    this.setGoods();
+    let storedUsers = JSON.parse(localStorage.storedUsersData);
+    for (let elem = 0; elem < storedUsers.length; elem++) {
+      this.users.push({ id: Date.now(), name: "" });
+      const userParsed = JSON.parse(storedUsers[elem]);
+      this.users[elem].id = userParsed.id;
+      this.users[elem].name = userParsed.name;
+    }
+    this.$store.dispatch("loadUsers", this.users);
   },
 };
 </script>
