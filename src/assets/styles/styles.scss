@@ -27,7 +27,7 @@
     color: $myGreen;
   }
   .main-title__start-btn {
-    margin-top: 2em;
+    margin-top: 4em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,6 +47,69 @@
       }
       &:active {
         background-color: $myPink;
+      }
+    }
+  }
+
+  .main-title__instruction {
+    margin-top: 4em;
+    color: $myGolden;
+    background-color: $myGolden;
+    border-radius: 40px 0;
+
+    .main-title__mainHeader {
+      background-color: $myLightGolden;
+      color: $myGreen;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 40px 0 0 0;
+      height: 100px;
+    }
+
+    .main-title__mainBody {
+      padding: 10px;
+
+      .main-title__card {
+        margin: 15px 0;
+        background-color: $myLightGolden;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 20px;
+
+        .main-title__cardName {
+          color: $myGreen;
+          margin-bottom: 5px;
+        }
+
+        .main-title__icon {
+          color: #19181a;
+          font-size: 25px;
+
+          &:hover,
+          &:focus,
+          &:active {
+            color: $myPink !important;
+          }
+        }
+
+        .main-title__cardBody {
+          color: $myBlack;
+          font-weight: bold;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          .main-title__like {
+            background-color: $myBlack;
+          }
+        }
       }
     }
   }

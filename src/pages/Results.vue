@@ -31,7 +31,7 @@
                 <a-typography-title :level="4">
                   {{ user.name }} никому ничего не должен!
                 </a-typography-title>
-                <LikeFilled style="color: $myBlack; font-size: 25px" />
+                <LikeFilled style="color: #19181a; font-size: 25px" />
               </div>
             </div>
           </div>

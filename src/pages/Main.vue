@@ -23,13 +23,80 @@
             >Начать!</a-button
           >
         </div>
+        <div class="main-title__instruction">
+          <a-typography class="main-title__frame">
+            <a-typography-title class="main-title__mainHeader" :level="1"
+              >Как это работает?</a-typography-title
+            >
+            <div class="main-title__mainBody">
+              <div>
+                <div class="main-title__card">
+                  <a-typography-title class="main-title__cardName" :level="2"
+                    >Шаг Первый</a-typography-title
+                  >
+                  <UsergroupAddOutlined class="main-title__icon" />
+                  <a-typography-paragraph class="main-title__cardBody">
+                    Добавляй всех своих друзей, кто был с тобой и что-то пил или
+                    ел!
+                  </a-typography-paragraph>
+                </div>
+              </div>
+
+              <div>
+                <div></div>
+                <div class="main-title__card">
+                  <a-typography-title class="main-title__cardName" :level="2"
+                    >Шаг Второй</a-typography-title
+                  >
+                  <ContainerOutlined class="main-title__icon" />
+                  <a-typography-paragraph class="main-title__cardBody">
+                    Укажи позицию из чека. Затем отметь тех, кто будет за неё
+                    платить!
+                  </a-typography-paragraph>
+                </div>
+              </div>
+
+              <div>
+                <div></div>
+                <div class="main-title__card">
+                  <a-typography-title
+                    class="main-title__cardName"
+                    :level="2"
+                    style="margin-bottom: 5px"
+                    >Шаг Третий</a-typography-title
+                  >
+                  <HeartFilled
+                    style="color: #b22222"
+                    class="main-title__icon"
+                  />
+                  <a-typography-paragraph class="main-title__cardBody">
+                    Делим счёт сам всё посчитает! Наслаждайтесь результатами и
+                    не забудьте чаевые!
+                  </a-typography-paragraph>
+                </div>
+              </div>
+            </div>
+          </a-typography>
+        </div>
       </a-col>
     </a-row>
   </div>
 </template>
 
 <script>
-export default {};
+import {
+  UsergroupAddOutlined,
+  ContainerOutlined,
+  HeartFilled,
+} from "@ant-design/icons-vue";
+
+export default {
+  components: {
+    UsergroupAddOutlined,
+    ContainerOutlined,
+    HeartFilled,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
