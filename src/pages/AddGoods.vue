@@ -318,12 +318,12 @@ export default {
       color: $myGreen;
 
       &:hover {
-        border-color: $myPink;
+        border-color: $myGreen;
       }
       &:focus {
-        border-color: $myPink;
-        box-shadow: 2px 2px 2px 0px $myPink;
-        filter: drop-shadow(2px 2px 2px $myPink);
+        border-color: $myGreen;
+        box-shadow: 2px 2px 2px 0px $myGreen;
+        filter: drop-shadow(2px 2px 2px $myGreen);
       }
     }
 

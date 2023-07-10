@@ -54,10 +54,21 @@
 ////////////////////////////////////////////////////////////////MAIN PAGE STYLES
 ///
 ////////////////////////////////////////////////////////////////NUMBER INPUT STYLE
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
   -webkit-appearance: none;
+  -moz-appearance: none;
   margin: 0;
 }
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+////////////////////////////////////////////////////////////////ALL INPUTS ROUND STYLE
+input {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
 ////////////////////////////////////////////////////////////////NUMBER INPUT STYLE
-/// 
+///

@@ -25,7 +25,7 @@
                 v-if="user.debt > 0"
                 :level="4"
               >
-                {{ user.debt }} ₽
+                {{ user.debt.toFixed(2) }} ₽
               </a-typography-title>
               <div v-if="user.debt === 0" class="results__cardBody">
                 <a-typography-title :level="4">
