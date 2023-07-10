@@ -50,25 +50,50 @@ export default {
     store,
   },
   setup() {
-    const storeUsers = store.getters.getUsersFromStore;
     const users = [];
-    const storeGoods = store.getters.getGoodsFromStore;
     const goods = [];
-    for (let index = 0; index < storeUsers.length; index++) {
-      users.push({
-        id: storeUsers[index].id,
-        name: storeUsers[index].name,
-        debt: 0.0,
-      });
-    }
-    for (let index = 0; index < storeGoods.length; index++) {
-      goods.push({
-        id: storeGoods[index].id,
-        name: storeGoods[index].name,
-        price: storeGoods[index].price,
-        goodDescribe: storeGoods[index].goodDescribe,
-      });
-    }
+
+    const setArrays = () => {
+      const goodsToVuexStore = [];
+      const usersToVuexSrote = [];
+      let storedGoods = JSON.parse(localStorage.storedGoodsData);
+      for (let elem = 0; elem < storedGoods.length; elem++) {
+        goodsToVuexStore.push({ id: Date.now(), name: "" });
+        const goodsParsed = JSON.parse(storedGoods[elem]);
+        goodsToVuexStore[elem].id = goodsParsed.id;
+        goodsToVuexStore[elem].name = goodsParsed.name;
+        goodsToVuexStore[elem].price = goodsParsed.price;
+        goodsToVuexStore[elem].goodDescribe = goodsParsed.goodDescribe;
+      }
+      let storedUsers = JSON.parse(localStorage.storedUsersData);
+      for (let elem = 0; elem < storedUsers.length; elem++) {
+        usersToVuexSrote.push({ id: Date.now(), name: "" });
+        const userParsed = JSON.parse(storedUsers[elem]);
+        usersToVuexSrote[elem].id = userParsed.id;
+        usersToVuexSrote[elem].name = userParsed.name;
+      }
+      store.dispatch("loadGoods", goodsToVuexStore);
+      store.dispatch("loadUsers", usersToVuexSrote);
+
+      const storeGoods = store.getters.getGoodsFromStore;
+      for (let index = 0; index < storeGoods.length; index++) {
+        goods.push({
+          id: storeGoods[index].id,
+          name: storeGoods[index].name,
+          price: storeGoods[index].price,
+          goodDescribe: storeGoods[index].goodDescribe,
+        });
+      }
+      const storeUsers = store.getters.getUsersFromStore;
+      for (let index = 0; index < storeUsers.length; index++) {
+        users.push({
+          id: storeUsers[index].id,
+          name: storeUsers[index].name,
+          debt: 0.0,
+        });
+      }
+    };
+
     const countDebt = () => {
       for (let goodIndex = 0; goodIndex < goods.length; goodIndex++) {
         for (let userIndex = 0; userIndex < users.length; userIndex++) {
@@ -85,10 +110,12 @@ export default {
     return {
       users,
       goods,
+      setArrays,
       countDebt,
     };
   },
-  beforeMount() {
+  beforeCreate() {
+    this.setArrays();
     this.countDebt();
   },
 };
