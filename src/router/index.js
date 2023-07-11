@@ -4,7 +4,7 @@ import AddUsers from '@/pages/AddUsers.vue'
 import AddGoods from '@/pages/AddGoods.vue'
 import Results from '@/pages/Results.vue'
 
-const routes = [
+const routes = [        /// Навигация по компонентам Vue Router
   {
     path: '/',
     name: 'home',

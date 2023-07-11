@@ -2,6 +2,7 @@
   <a-row type="flex" justify="center" align="top">
     <a-col :xs="{span: 32}" :sm="{span: 18}" :md="{span: 16}" :lg="{span: 8}">
       <div class="friendsList">
+        <!-- Форма со списком пользователей -->
         <a-form @submit.prevent class="list_form">
           <a-space
             class="list"
@@ -9,6 +10,7 @@
             :key="user.id"
             align="baseline"
           >
+          <!-- Настройка цвета у аватара пользователя (четные -- зеленый, нечетные -- розовый). На аватаре отрисовывается первая буква имени -->
             <a-avatar v-if="index % 2 === 1" class="avatarPink"
               ><div v-if="user.name !== undefined">
                 {{ user.name[0] }}
@@ -19,6 +21,7 @@
                 {{ user.name[0] }}
               </div></a-avatar
             >
+            <!-- Форма для ввода имени (по одному на каждого пользователя) -->
             <a-form-item
               class="form"
               :rules="{
@@ -33,19 +36,22 @@
                 placeholder="Имя друга"
               />
             </a-form-item>
+            <!-- Кнопка удаления пользователя из списка (появляется, если в списке больше 2 пользователей). Импорт из AntDV -->
             <DeleteOutlined
               class="delete_friend"
               @click="removeUser(user)"
               v-if="users.length > 2"
             />
           </a-space>
-
+          <!-- Кнопка добавления пользователя. Добавляет новую форму ввода имени. Также с иконкой из AntDV -->
           <a-form-item class="add_btn_form">
             <a-button class="add_friend" id="addFriend" block @click="addUser">
               <PlusOutlined />
               Добавь друга
             </a-button>
           </a-form-item>
+          <!-- Кнопка перехода на страницу с добавлением позиций. 
+          При нажатии выполняется проверка (введены ли имена у всех пользователей и добавлено ли более одного пользователя). -->
           <a-form-item class="continue_btn_form">
             <a-button
               class="continue_btn"
@@ -68,12 +74,12 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import router from "@/router/index.js";
 export default {
   components: {
-    DeleteOutlined,
+    DeleteOutlined,   /// Импорт иконок из AntDV
     PlusOutlined,
   },
   data() {
     return {
-      users: [
+      users: [        /// Массив пользователей. Первично иницилизируется двумя пользователями без имени
         {
           id: Date.now() + 1,
           name: "",
@@ -86,58 +92,58 @@ export default {
     };
   },
   methods: {
-    setUsers() {
+    setUsers() {        /// Загружает пользователей в Store (хранилище Vuex)
       this.$store.dispatch("loadUsers", this.users);
     },
-    addUser() {
+    addUser() {         /// Добавляет пользователя в список пользователей (добавляет новую пустую форму на страницу, в которую необходимо ввести имя)
       const newUser = {
         id: Date.now(),
         name: "",
       };
       this.users.push(newUser);
-      this.setUsers();
-      addFriend.classList.remove("error");
-      addFriend.innerHTML = "Добавь друга";
+      this.setUsers();                        /// Обновление Store
+      addFriend.classList.remove("error");    /// Убирает с элемента кнопки для добавления пользователя 
+      addFriend.innerHTML = "Добавь друга";   /// стиль ошибки и меняет надпись на дефолтную
     },
-    removeUser(item) {
+    removeUser(item) {                        /// Удаление пользователя из массива
       let index = this.users.indexOf(item);
       if (index !== -1) {
         this.users.splice(index, 1);
       }
-      this.setUsers();
+      this.setUsers();                        /// Обновление Store
     },
-    checkFriends() {
+    checkFriends() {                          /// Проверка корректности введенных данных на странице, срабатывает при нажатии кнопки "Далее"
       let nameFlag = false;
       let countFlag = false;
-      if (this.users.length < 2) countFlag = true;
+      if (this.users.length < 2) countFlag = true;      /// Проверка, что пользователей больше 1
       for (let index = 0; index < this.users.length; index++) {
         const element = this.users[index];
-        if (element.name === "" || element.name === " ") {
-          nameFlag = true;
+        if (element.name === "" || element.name === " ") {    /// Проверка наличия имени у всех пользователей 
+          nameFlag = true;                                    
         }
       }
-      if (nameFlag) {
+      if (nameFlag) {                                          /// Отображение ошибки: у пользователя отсутсвует имя
         addFriend.classList.add("error");
         addFriend.innerHTML = "Пожалуйста, введи имя друга!";
         nameFlag = false;
-      } else if (countFlag) {
+      } else if (countFlag) {                                  /// Отображение ошибки: пользователей меньше 2
         addFriend.classList.add("error");
         addFriend.innerHTML = "Пожалуйста, введи имена хотя бы двух друзей!";
         countFlag = false;
-      } else {
+      } else {                                                 /// Если проверка прошла успешно
         let jsonUsers = [];
         for (let elem = 0; elem < this.users.length; elem++) {
           const element = JSON.stringify(this.users[elem]);
           jsonUsers.push(element);
         }
-        localStorage.setItem("storedUsersData", JSON.stringify(jsonUsers));
-        this.setUsers();
-        router.push("/addgoods");
+        localStorage.setItem("storedUsersData", JSON.stringify(jsonUsers));   /// Сохранение массива пользователей в localStorage в объект storedUsersData
+        this.setUsers();                                                      /// Сохранение в Store (Vuex)
+        router.push("/addgoods");                                             /// Переход на страницу добавления позиций чека
       }
     },
   },
   mounted() {
-    if (localStorage.storedUsersData) {
+    if (localStorage.storedUsersData) {                             /// Развертка данных из localStorage из объекта storedUsersData при его наличии
       let storedUsers = JSON.parse(localStorage.storedUsersData);
       for (let elem = 0; elem < storedUsers.length; elem++) {
         this.users.push({ id: Date.now(), name: "" });
@@ -146,17 +152,17 @@ export default {
         this.users[elem].name = userParsed.name;
       }
     }
-    this.users.length = this.users.length - 2;
+    this.users.length = this.users.length - 2;                      /// Убираем двух лишних, инициализированных по умолчанию пользователей
     localStorage.clear;
   },
   beforeMount() {
-    this.setUsers();
+    this.setUsers();                                                /// Отображаем Store (без этой функции в beforeMounted Store не отображался при загрузке страницы)
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.friendsList {
+.friendsList {                                  /// Стили для AddUsers.vue (не хотели работать в общем файле со стилями)
   font-family: $fontName;
   margin-top: 100px;
   margin-bottom: 100px;

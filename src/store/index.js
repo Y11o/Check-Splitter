@@ -1,11 +1,11 @@
 import { createStore } from 'vuex'
 
-export default createStore({
+export default createStore({      /// Создание хранилища Vuex
   state: {
-    users: [],
-    goods: [],
+    users: [],      /// Список пользователей 
+    goods: [],      /// Список позиций
   },
-  getters: {
+  getters: {        /// Геттеры -- возвращают массивы из state
     getUsersFromStore(state) {
       return state.users
     },
@@ -13,7 +13,7 @@ export default createStore({
       return state.goods
     },
   },
-  mutations: {
+  mutations: {    /// Мутации вызываются из соответствующих Actions сохраняют полученный массив в state
     setUsers: (state, users) => {
       state.users = users;
     },
@@ -21,8 +21,8 @@ export default createStore({
       state.goods = goods;
     }
   },
-  actions: {
-    loadUsers: (context, users) => {
+  actions: {        /// Actions вызываются в компонентах для сохранения данных в хранилище
+    loadUsers: (context, users) => {        /// принимают контекст и массив, котоырй необходимо сохранить
       context.commit('setUsers', users);
     },
     loadGoods: (context, goods) => {

@@ -2,6 +2,7 @@
   <a-row type="flex" justify="center" align="top">
     <a-col :xs="{span: 32}" :sm="{span: 18}" :md="{span: 16}" :lg="{span: 8}">
       <div class="goods_form">
+        <!-- Форма добавления позиций -->
         <a-form class="goods" @submit.prevent>
           <a-space
             class="goods_form__list"
@@ -9,6 +10,8 @@
             :key="good.id"
             align="baseline"
           >
+          <!-- Форма для каждой отдельной позиции -->
+            <!-- Input для названия -->
             <div class="goods_form__goodCard">
               <div class="goods_form__cardsName">
                 <a-form-item
@@ -25,6 +28,7 @@
                     class="goods_form__input_form"
                     placeholder="Название"
                   />
+            <!-- Input для цены -->
                 </a-form-item>
                 <a-form-item
                   class="form"
@@ -41,12 +45,14 @@
                     placeholder="Цена"
                   />
                 </a-form-item>
+                <!-- Удаление позиции из списка (появляется при добавлении более двух позиций) -->
                 <DeleteOutlined
                   class="goods_form__delete_good"
                   @click="removeGood(good)"
                   v-if="goods.length > 2"
                 />
               </div>
+              <!-- Информация о том, какие пользователи будут платить за позицию -->
               <div class="goods_form__cardsDescription">
                 <a-collapse
                   v-model:activeKey="activeKey"
@@ -54,16 +60,19 @@
                   :bordered="false"
                   :accordion="true"
                 >
+                <!-- Выпадающий список пользователей (свёрнут по умолчанию) -->
                   <template #expandIcon="{ isActive }">
                     <caret-right-outlined :rotate="isActive ? 90 : 0" />
                   </template>
                   <a-collapse-panel :key="good.id" header=""> 
                     <div class="goods_form__cardsDescriptionContent">
+                      <!-- В списке указано имя пользователя из списка, передаваемого с прошлой страницы, аватар и чекбокс -->
                       <div
                         class="goods_form__whoAte"
-                        v-for="(user, userIndex) in users"
+                        v-for="(user) in users"
                         :key="user.id"
                       >
+                      <!-- Аватар меняет цвет при выборе пользователя. По дефолту розовый цвет, при выборе этого пользователя аватар станет зелёным -->
                         <div class="avatar">
                           <a-avatar
                             v-if="!goods[index].goodDescribe.whoAte.includes(user.id)"
@@ -81,6 +90,7 @@
                             </div></a-avatar
                           >
                         </div>
+                        <!-- Чекбокс для отметки пользователя -->
                         <input
                           type="checkbox"
                           class="goods_form__checkbox"
@@ -99,6 +109,7 @@
               </div>
             </div>
           </a-space>
+          <!-- Кнопка добавления позиции -->
           <a-form-item class="goods_form__add_btn_form">
             <a-button
               block
@@ -110,6 +121,7 @@
               Добавь позицию
             </a-button>
           </a-form-item>
+          <!-- Переход к подсчитанным результатм -->
           <a-form-item class="goods_form__continue_btn_form">
             <a-button class="goods_form__continue_btn" @click="checkGoods()"
               >К результатам</a-button
@@ -122,7 +134,7 @@
 </template>
 
 <script>
-import {
+import {            /// Импорт компонентов из AntDV
   DeleteOutlined,
   PlusOutlined,
   CaretRightOutlined,
@@ -139,14 +151,14 @@ export default {
   },
   data() {
     return {
-      goods: [
+      goods: [      /// Список позиций
         {
-          id: Date.now() + 1,
-          name: "",
-          price: undefined,
+          id: Date.now() + 1, /// Уникальный ID позиции
+          name: "",         /// Название позиции
+          price: undefined, /// Цена позиции
           goodDescribe: {
-            whoPaid: "",
-            whoAte: [],
+            whoPaid: "",    /// Для будущих обновлений (указание человека, который платил за позицию и которому должны другие пользователи)
+            whoAte: [],     /// Между кем будет делится стоимость позиции
           },
         },
         {
@@ -159,14 +171,14 @@ export default {
           },
         },
       ],
-      users:[],
+      users:[],   /// Список пользователей
     };
   },
   methods: {
-    setGoods() {
+    setGoods() {      /// Добавление позиций в Store (Vuex)
       this.$store.dispatch("loadGoods", this.goods);
     },
-    addGood() {
+    addGood() {       /// Добавление позиции в список позиций (создание новой пустой формы)
       const newGood = {
         id: Date.now(),
         name: "",
@@ -177,22 +189,22 @@ export default {
         },
       };
       this.goods.push(newGood);
-      this.setGoods();
-      goodAdder.classList.remove("error");
-      goodAdder.innerHTML = "Добавь позицию";
+      this.setGoods();                        /// Обновление Store
+      goodAdder.classList.remove("error");    /// Убирает с элемента кнопки для добавления позиции
+      goodAdder.innerHTML = "Добавь позицию"; /// стиль ошибки и меняет надпись на дефолтную
     },
-    removeGood(item) {
+    removeGood(item) {                        /// Удаление позиции из списка
       let index = this.goods.indexOf(item);
       if (index !== -1) {
         this.goods.splice(index, 1);
       }
       this.setGoods();
     },
-    checkGoods() {
-      let errorFlag = false;
-      let countFlag = false;
-      if (this.goods.length < 2) countFlag = true;
-      for (let index = 0; index < this.goods.length; index++) {
+    checkGoods() {                            /// Проверка корректности введеных данных
+      let errorFlag = false;                  
+      let countFlag = false;                 
+      if (this.goods.length < 2) countFlag = true;    /// Проверка наличия хотя бы двух позиций
+      for (let index = 0; index < this.goods.length; index++) {   /// Проверка указания имени, цены и пользователей, которые будут платить за позицию
         const element = this.goods[index];
         if (
           element.name === "" ||
@@ -205,34 +217,34 @@ export default {
           errorFlag = true;
         }
       }
-      if (errorFlag) {
-        goodAdder.classList.add("error");
+      if (errorFlag) {                            /// Вывод ошибки об отсутсвии необходимых данных
+        goodAdder.classList.add("error");           
         goodAdder.innerHTML = "Пожалуйста, введи всю информацию о позиции!";
         errorFlag = false;
-      } else if (countFlag) {
+      } else if (countFlag) {                     /// Вывод ошибки о налиции менее двух позиций в списке
         goodAdder.classList.add("error");
         goodAdder.innerHTML = "Пожалуйста, введи хотя бы две позиции!";
         countFlag = false;
-      } else {
-        let jsonGoods = [];
+      } else {                                    /// Если ошибки отсутсвуют
+        let jsonGoods = [];                                     
         for (let elem = 0; elem < this.goods.length; elem++) {
           const element = JSON.stringify(this.goods[elem]);
           jsonGoods.push(element);
         }
-        localStorage.setItem("storedGoodsData", JSON.stringify(jsonGoods));
-        this.setGoods();
-        router.push("/results");
+        localStorage.setItem("storedGoodsData", JSON.stringify(jsonGoods));   /// Сохранение массива позиций в localStorage в объект storedGoodsData
+        this.setGoods();                                                      /// Сохранение в Store (Vuex)
+        router.push("/results");                                              /// Переход на страницу с результатми 
       }
     },
   },
-  setup() {
+  setup() {                                    /// Настройка положения выпадающего списка пользователей в форме
     const activeKey = ref(["1"]);
     return {
       activeKey,
     };
   },
   mounted() {
-    if (localStorage.storedGoodsData) {
+    if (localStorage.storedGoodsData) {                       /// Запись элементов из localStorage из объекта storedGoodsData (при его наличии) в массив позиций
       let storedGoods = JSON.parse(localStorage.storedGoodsData);
       for (let elem = 0; elem < storedGoods.length; elem++) {
         this.goods.push({ id: Date.now(), name: "" });
@@ -243,24 +255,24 @@ export default {
         this.goods[elem].goodDescribe = goodsParsed.goodDescribe;
       }
     }
-    this.goods.length = this.goods.length - 2;
-    localStorage.clear;
+    this.goods.length = this.goods.length - 2;                 /// Удаление двух инициализированных в объявлении списка позиций
+    localStorage.clear;                             
   },
   beforeMount() {
-    this.setGoods();
-    let storedUsers = JSON.parse(localStorage.storedUsersData);
+    this.setGoods();                                                      
+    let storedUsers = JSON.parse(localStorage.storedUsersData);       /// Создание списка пользователей из объекта storedUsersData в localStorage
     for (let elem = 0; elem < storedUsers.length; elem++) {
       this.users.push({ id: Date.now(), name: "" });
       const userParsed = JSON.parse(storedUsers[elem]);
       this.users[elem].id = userParsed.id;
       this.users[elem].name = userParsed.name;
     }
-    this.$store.dispatch("loadUsers", this.users);
+    this.$store.dispatch("loadUsers", this.users);                    /// Обновление хранилища Vuex (списка пользователей) на странице добавления позиций
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped>            /// Стили AddGoods.vue не работали из общего файла стилей
 
 .goods_form {
   font-family: $fontName;
@@ -287,7 +299,7 @@ export default {
       background-color: $myLightGolden;
 
       .goods_form__cardsDescriptionContent {
-        // .goods_form__whoPaid {
+        // .goods_form__whoPaid {               /// Для будущих обновлений (указание человека, который платил за позицию и которому должны другие пользователи)
         // }
         .goods_form__whoAte {
           margin: auto 5px;
