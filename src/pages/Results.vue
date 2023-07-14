@@ -126,58 +126,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>    /// Стили Results.vue не подключились через общий файл стилей
-.results {
-  font-family: $fontName;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  background-color: $myGolden;
-  border: none;
-  border-radius: 20px;
-
-  .results__frame {
-    .results__mainHeader {
-      background-color: $myLightGolden;
-      color: $myGreen;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      border-radius: 20px 20px 0px 0px;
-      height: 100px;
-    }
-
-    .results__mainBody {
-      padding: 10px;
-
-      .results__card {
-        background-color: $myLightGolden;
-        padding: 5px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        border-radius: 20px;
-
-        .results__cardName {
-          color: $myGreen;
-        }
-
-        .results__cardBody {
-          color: $myBlack;
-          font-weight: bold;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-
-          .results__like {
-            background-color: $myBlack;
-          }
-        }
-      }
-    }
-  }
-}
+<style lang="scss" scoped>
+@import '@/assets/styles/styles.scss';
 </style>
