@@ -1,6 +1,11 @@
 <template>
   <a-row type="flex" justify="center" align="top">
-    <a-col :xs="{span: 32}" :sm="{span: 18}" :md="{span: 16}" :lg="{span: 8}">
+    <a-col
+      :xs="{ span: 32 }"
+      :sm="{ span: 18 }"
+      :md="{ span: 16 }"
+      :lg="{ span: 8 }"
+    >
       <div class="goods_form">
         <!-- Форма добавления позиций -->
         <a-form class="goods" @submit.prevent>
@@ -10,7 +15,7 @@
             :key="good.id"
             align="baseline"
           >
-          <!-- Форма для каждой отдельной позиции -->
+            <!-- Форма для каждой отдельной позиции -->
             <!-- Input для названия -->
             <div class="goods_form__goodCard">
               <div class="goods_form__cardsName">
@@ -28,7 +33,7 @@
                     class="goods_form__input_form"
                     placeholder="Название"
                   />
-            <!-- Input для цены -->
+                  <!-- Input для цены -->
                 </a-form-item>
                 <a-form-item
                   class="form"
@@ -60,22 +65,26 @@
                   :bordered="false"
                   :accordion="true"
                 >
-                <!-- Выпадающий список пользователей (свёрнут по умолчанию) -->
+                  <!-- Выпадающий список пользователей (свёрнут по умолчанию) -->
                   <template #expandIcon="{ isActive }">
                     <caret-right-outlined :rotate="isActive ? 90 : 0" />
                   </template>
-                  <a-collapse-panel :key="good.id" header=""> 
+                  <a-collapse-panel :key="good.id" header="">
                     <div class="goods_form__cardsDescriptionContent">
                       <!-- В списке указано имя пользователя из списка, передаваемого с прошлой страницы, аватар и чекбокс -->
                       <div
                         class="goods_form__whoAte"
-                        v-for="(user) in users"
+                        v-for="user in users"
                         :key="user.id"
                       >
-                      <!-- Аватар меняет цвет при выборе пользователя. По дефолту розовый цвет, при выборе этого пользователя аватар станет зелёным -->
+                        <!-- Аватар меняет цвет при выборе пользователя. По дефолту розовый цвет, при выборе этого пользователя аватар станет зелёным -->
                         <div class="avatar">
                           <a-avatar
-                            v-if="!goods[index].goodDescribe.whoAte.includes(user.id)"
+                            v-if="
+                              !goods[index].goodDescribe.whoAte.includes(
+                                user.id
+                              )
+                            "
                             class="avatarPink"
                             ><div v-if="user !== undefined">
                               {{ user.name[0] }}
@@ -83,7 +92,9 @@
                           >
 
                           <a-avatar
-                            v-if="goods[index].goodDescribe.whoAte.includes(user.id)"
+                            v-if="
+                              goods[index].goodDescribe.whoAte.includes(user.id)
+                            "
                             class="avatarGreen"
                             ><div v-if="user !== undefined">
                               {{ user.name[0] }}
@@ -91,16 +102,20 @@
                           >
                         </div>
                         <!-- Чекбокс для отметки пользователя -->
-                        <input
-                          type="checkbox"
-                          class="goods_form__checkbox"
-                          :value="user.id"
-                          v-model="goods[index].goodDescribe.whoAte"
-                        />
-                        <label class="goods_form__userName">{{
-                          user.name
-                        }}</label>
-                        <div class="goods_form__check"></div>
+                        <div class="goods_form__checkBox">
+                          <label class="goods_form__label">
+                            <input
+                              type="checkbox"
+                              class="goods_form__checkbox"
+                              :value="user.id"
+                              v-model="goods[index].goodDescribe.whoAte"
+                            />
+                            <span class="goods_form__fakeCheckBox"></span>
+                            <span class="goods_form__userName">
+                              {{ user.name }}
+                            </span>
+                          </label>
+                        </div>
                       </div>
                       <div class="goods_form__whoPaid"></div>
                     </div>
@@ -134,7 +149,8 @@
 </template>
 
 <script>
-import {            /// Импорт компонентов из AntDV
+import {
+  /// Импорт компонентов из AntDV
   DeleteOutlined,
   PlusOutlined,
   CaretRightOutlined,
@@ -151,14 +167,15 @@ export default {
   },
   data() {
     return {
-      goods: [      /// Список позиций
+      goods: [
+        /// Список позиций
         {
           id: Date.now() + 1, /// Уникальный ID позиции
-          name: "",         /// Название позиции
+          name: "", /// Название позиции
           price: undefined, /// Цена позиции
           goodDescribe: {
-            whoPaid: "",    /// Для будущих обновлений (указание человека, который платил за позицию и которому должны другие пользователи)
-            whoAte: [],     /// Между кем будет делится стоимость позиции
+            whoPaid: "", /// Для будущих обновлений (указание человека, который платил за позицию и которому должны другие пользователи)
+            whoAte: [], /// Между кем будет делится стоимость позиции
           },
         },
         {
@@ -171,14 +188,16 @@ export default {
           },
         },
       ],
-      users:[],   /// Список пользователей
+      users: [], /// Список пользователей
     };
   },
   methods: {
-    setGoods() {      /// Добавление позиций в Store (Vuex)
+    setGoods() {
+      /// Добавление позиций в Store (Vuex)
       this.$store.dispatch("loadGoods", this.goods);
     },
-    addGood() {       /// Добавление позиции в список позиций (создание новой пустой формы)
+    addGood() {
+      /// Добавление позиции в список позиций (создание новой пустой формы)
       const newGood = {
         id: Date.now(),
         name: "",
@@ -189,22 +208,25 @@ export default {
         },
       };
       this.goods.push(newGood);
-      this.setGoods();                        /// Обновление Store
-      goodAdder.classList.remove("error");    /// Убирает с элемента кнопки для добавления позиции
+      this.setGoods(); /// Обновление Store
+      goodAdder.classList.remove("error"); /// Убирает с элемента кнопки для добавления позиции
       goodAdder.innerHTML = "Добавь позицию"; /// стиль ошибки и меняет надпись на дефолтную
     },
-    removeGood(item) {                        /// Удаление позиции из списка
+    removeGood(item) {
+      /// Удаление позиции из списка
       let index = this.goods.indexOf(item);
       if (index !== -1) {
         this.goods.splice(index, 1);
       }
       this.setGoods();
     },
-    checkGoods() {                            /// Проверка корректности введеных данных
-      let errorFlag = false;                  
-      let countFlag = false;                 
-      if (this.goods.length < 2) countFlag = true;    /// Проверка наличия хотя бы двух позиций
-      for (let index = 0; index < this.goods.length; index++) {   /// Проверка указания имени, цены и пользователей, которые будут платить за позицию
+    checkGoods() {
+      /// Проверка корректности введеных данных
+      let errorFlag = false;
+      let countFlag = false;
+      if (this.goods.length < 2) countFlag = true; /// Проверка наличия хотя бы двух позиций
+      for (let index = 0; index < this.goods.length; index++) {
+        /// Проверка указания имени, цены и пользователей, которые будут платить за позицию
         const element = this.goods[index];
         if (
           element.name === "" ||
@@ -217,34 +239,39 @@ export default {
           errorFlag = true;
         }
       }
-      if (errorFlag) {                            /// Вывод ошибки об отсутсвии необходимых данных
-        goodAdder.classList.add("error");           
+      if (errorFlag) {
+        /// Вывод ошибки об отсутсвии необходимых данных
+        goodAdder.classList.add("error");
         goodAdder.innerHTML = "Пожалуйста, введи всю информацию о позиции!";
         errorFlag = false;
-      } else if (countFlag) {                     /// Вывод ошибки о налиции менее двух позиций в списке
+      } else if (countFlag) {
+        /// Вывод ошибки о налиции менее двух позиций в списке
         goodAdder.classList.add("error");
         goodAdder.innerHTML = "Пожалуйста, введи хотя бы две позиции!";
         countFlag = false;
-      } else {                                    /// Если ошибки отсутсвуют
-        let jsonGoods = [];                                     
+      } else {
+        /// Если ошибки отсутсвуют
+        let jsonGoods = [];
         for (let elem = 0; elem < this.goods.length; elem++) {
           const element = JSON.stringify(this.goods[elem]);
           jsonGoods.push(element);
         }
-        localStorage.setItem("storedGoodsData", JSON.stringify(jsonGoods));   /// Сохранение массива позиций в localStorage в объект storedGoodsData
-        this.setGoods();                                                      /// Сохранение в Store (Vuex)
-        router.push("/results");                                              /// Переход на страницу с результатми 
+        localStorage.setItem("storedGoodsData", JSON.stringify(jsonGoods)); /// Сохранение массива позиций в localStorage в объект storedGoodsData
+        this.setGoods(); /// Сохранение в Store (Vuex)
+        router.push("/results"); /// Переход на страницу с результатми
       }
     },
   },
-  setup() {                                    /// Настройка положения выпадающего списка пользователей в форме
+  setup() {
+    /// Настройка положения выпадающего списка пользователей в форме
     const activeKey = ref(["1"]);
     return {
       activeKey,
     };
   },
   mounted() {
-    if (localStorage.storedGoodsData) {                       /// Запись элементов из localStorage из объекта storedGoodsData (при его наличии) в массив позиций
+    if (localStorage.storedGoodsData) {
+      /// Запись элементов из localStorage из объекта storedGoodsData (при его наличии) в массив позиций
       let storedGoods = JSON.parse(localStorage.storedGoodsData);
       for (let elem = 0; elem < storedGoods.length; elem++) {
         this.goods.push({ id: Date.now(), name: "" });
@@ -255,23 +282,23 @@ export default {
         this.goods[elem].goodDescribe = goodsParsed.goodDescribe;
       }
     }
-    this.goods.length = this.goods.length - 2;                 /// Удаление двух инициализированных в объявлении списка позиций
-    localStorage.clear;                             
+    this.goods.length = this.goods.length - 2; /// Удаление двух инициализированных в объявлении списка позиций
+    localStorage.clear;
   },
   beforeMount() {
-    this.setGoods();                                                      
-    let storedUsers = JSON.parse(localStorage.storedUsersData);       /// Создание списка пользователей из объекта storedUsersData в localStorage
+    this.setGoods();
+    let storedUsers = JSON.parse(localStorage.storedUsersData); /// Создание списка пользователей из объекта storedUsersData в localStorage
     for (let elem = 0; elem < storedUsers.length; elem++) {
       this.users.push({ id: Date.now(), name: "" });
       const userParsed = JSON.parse(storedUsers[elem]);
       this.users[elem].id = userParsed.id;
       this.users[elem].name = userParsed.name;
     }
-    this.$store.dispatch("loadUsers", this.users);                    /// Обновление хранилища Vuex (списка пользователей) на странице добавления позиций
+    this.$store.dispatch("loadUsers", this.users); /// Обновление хранилища Vuex (списка пользователей) на странице добавления позиций
   },
 };
 </script>
 
-<style lang="scss" scoped>            
-@import '@/assets/styles/styles.scss';
+<style lang="scss" scoped>
+@import "@/assets/styles/styles.scss";
 </style>
