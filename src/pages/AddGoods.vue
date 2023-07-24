@@ -8,10 +8,17 @@
     >
       <div class="goods_form">
         <!-- Форма добавления позиций -->
+<<<<<<< HEAD
         <a-form class="goods">
           <a-space
             class="goods_form__list"
             v-for="(good) in goods"
+=======
+        <a-form class="goods" @submit.prevent>
+          <a-space
+            class="goods_form__list"
+            v-for="(good, index) in goods"
+>>>>>>> 0e2dec6 (Adding files to Master)
             :key="good.id"
             align="baseline"
           >
@@ -28,8 +35,13 @@
                   }"
                 >
                   <a-input
+<<<<<<< HEAD
                     :value="good.name"
                     @input="good.name = $event.target.value"
+=======
+                    v-bind:value="goods[index].name"
+                    @input="goods[index].name = $event.target.value"
+>>>>>>> 0e2dec6 (Adding files to Master)
                     class="goods_form__input_form"
                     placeholder="Название"
                   />
@@ -43,8 +55,13 @@
                   }"
                 >
                   <a-input
+<<<<<<< HEAD
                     :value="good.price"
                     @input="good.price = $event.target.value"
+=======
+                    v-bind:value="goods[index].price"
+                    @input="goods[index].price = $event.target.value"
+>>>>>>> 0e2dec6 (Adding files to Master)
                     class="goods_form__input_form"
                     type="number"
                     placeholder="Цена"
@@ -81,7 +98,11 @@
                         <div class="avatar">
                           <a-avatar
                             v-if="
+<<<<<<< HEAD
                               !good.goodDescribe.whoAte.includes(
+=======
+                              !goods[index].goodDescribe.whoAte.includes(
+>>>>>>> 0e2dec6 (Adding files to Master)
                                 user.id
                               )
                             "
@@ -93,7 +114,11 @@
 
                           <a-avatar
                             v-if="
+<<<<<<< HEAD
                               good.goodDescribe.whoAte.includes(user.id)
+=======
+                              goods[index].goodDescribe.whoAte.includes(user.id)
+>>>>>>> 0e2dec6 (Adding files to Master)
                             "
                             class="avatarGreen"
                             ><div v-if="user !== undefined">
@@ -108,7 +133,11 @@
                               type="checkbox"
                               class="goods_form__checkbox"
                               :value="user.id"
+<<<<<<< HEAD
                               v-model="good.goodDescribe.whoAte"
+=======
+                              v-model="goods[index].goodDescribe.whoAte"
+>>>>>>> 0e2dec6 (Adding files to Master)
                             />
                             <span class="goods_form__fakeCheckBox"></span>
                             <span class="goods_form__userName">
@@ -130,7 +159,10 @@
               block
               @click="addGood"
               id="goodAdder"
+<<<<<<< HEAD
               :class="{ errorName: nameFlag, errorCount: countFlag }"
+=======
+>>>>>>> 0e2dec6 (Adding files to Master)
               class="goods_form__add_good"
             >
               <PlusOutlined />
@@ -139,9 +171,15 @@
           </a-form-item>
           <!-- Переход к подсчитанным результатм -->
           <a-form-item class="goods_form__continue_btn_form">
+<<<<<<< HEAD
             <a-button class="goods_form__continue_btn" @click="checkGoods()">
               К результатам
             </a-button>
+=======
+            <a-button class="goods_form__continue_btn" @click="checkGoods()"
+              >К результатам</a-button
+            >
+>>>>>>> 0e2dec6 (Adding files to Master)
           </a-form-item>
         </a-form>
       </div>
@@ -168,8 +206,11 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
       nameFlag: false,
       countFlag: false,
+=======
+>>>>>>> 0e2dec6 (Adding files to Master)
       goods: [
         /// Список позиций
         {
@@ -210,10 +251,16 @@ export default {
           whoAte: [],
         },
       };
+<<<<<<< HEAD
       this.nameFlag = false;
       this.countFlag = false;
       this.goods.push(newGood);
       this.setGoods(); /// Обновление Store
+=======
+      this.goods.push(newGood);
+      this.setGoods(); /// Обновление Store
+      goodAdder.classList.remove("error"); /// Убирает с элемента кнопки для добавления позиции
+>>>>>>> 0e2dec6 (Adding files to Master)
       goodAdder.innerHTML = "Добавь позицию"; /// стиль ошибки и меняет надпись на дефолтную
     },
     removeGood(item) {
@@ -226,7 +273,13 @@ export default {
     },
     checkGoods() {
       /// Проверка корректности введеных данных
+<<<<<<< HEAD
       if (this.goods.length < 2) this.countFlag = true; /// Проверка наличия хотя бы двух позиций
+=======
+      let errorFlag = false;
+      let countFlag = false;
+      if (this.goods.length < 2) countFlag = true; /// Проверка наличия хотя бы двух позиций
+>>>>>>> 0e2dec6 (Adding files to Master)
       for (let index = 0; index < this.goods.length; index++) {
         /// Проверка указания имени, цены и пользователей, которые будут платить за позицию
         const element = this.goods[index];
@@ -238,6 +291,7 @@ export default {
           element.price === " " ||
           element.goodDescribe.whoAte === []
         ) {
+<<<<<<< HEAD
           this.nameFlag = true;
         }
       }
@@ -247,6 +301,21 @@ export default {
       } else if (this.countFlag) {
         /// Вывод ошибки о налиции менее двух позиций в списке
         goodAdder.innerHTML = "Пожалуйста, введи хотя бы две позиции!";
+=======
+          errorFlag = true;
+        }
+      }
+      if (errorFlag) {
+        /// Вывод ошибки об отсутсвии необходимых данных
+        goodAdder.classList.add("error");
+        goodAdder.innerHTML = "Пожалуйста, введи всю информацию о позиции!";
+        errorFlag = false;
+      } else if (countFlag) {
+        /// Вывод ошибки о налиции менее двух позиций в списке
+        goodAdder.classList.add("error");
+        goodAdder.innerHTML = "Пожалуйста, введи хотя бы две позиции!";
+        countFlag = false;
+>>>>>>> 0e2dec6 (Adding files to Master)
       } else {
         /// Если ошибки отсутсвуют
         let jsonGoods = [];
@@ -274,10 +343,21 @@ export default {
       for (let elem = 0; elem < storedGoods.length; elem++) {
         this.goods.push({ id: Date.now(), name: "" });
         const goodsParsed = JSON.parse(storedGoods[elem]);
+<<<<<<< HEAD
         this.goods[elem] = {...goodsParsed};
       }
     }
     this.goods.length = this.goods.length - 2; /// Удаление двух инициализированных в объявлении списка позиций
+=======
+        this.goods[elem].id = goodsParsed.id;
+        this.goods[elem].name = goodsParsed.name;
+        this.goods[elem].price = goodsParsed.price;
+        this.goods[elem].goodDescribe = goodsParsed.goodDescribe;
+      }
+    }
+    this.goods.length = this.goods.length - 2; /// Удаление двух инициализированных в объявлении списка позиций
+    localStorage.clear;
+>>>>>>> 0e2dec6 (Adding files to Master)
   },
   beforeMount() {
     this.setGoods();
@@ -285,7 +365,12 @@ export default {
     for (let elem = 0; elem < storedUsers.length; elem++) {
       this.users.push({ id: Date.now(), name: "" });
       const userParsed = JSON.parse(storedUsers[elem]);
+<<<<<<< HEAD
       this.users[elem] = {...userParsed};
+=======
+      this.users[elem].id = userParsed.id;
+      this.users[elem].name = userParsed.name;
+>>>>>>> 0e2dec6 (Adding files to Master)
     }
     this.$store.dispatch("loadUsers", this.users); /// Обновление хранилища Vuex (списка пользователей) на странице добавления позиций
   },

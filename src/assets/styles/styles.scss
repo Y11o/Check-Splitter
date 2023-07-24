@@ -1,10 +1,18 @@
 @import "variables.scss";       /// Импорт переменных для шрифта и цветов
 
+<<<<<<< HEAD
 /*#region*/ //MAIN PAGE STYLES
 @import "main.scss";
 /*#endregion*/
 
 /*#region*/ //NUMBER INPUT STYLE
+=======
+////////////////////////////////////////////////////////////////MAIN PAGE STYLES
+@import "main.scss";
+////////////////////////////////////////////////////////////////MAIN PAGE STYLES
+///
+////////////////////////////////////////////////////////////////NUMBER INPUT STYLE
+>>>>>>> 0e2dec6 (Adding files to Master)
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   appearance: none;
@@ -13,12 +21,17 @@ input[type="number"]::-webkit-outer-spin-button {
   -moz-appearance: textfield;
   margin: 0;
 }
+<<<<<<< HEAD
 //ALL INPUTS ROUND STYLE
+=======
+////////////////////////////////////////////////////////////////ALL INPUTS ROUND STYLE
+>>>>>>> 0e2dec6 (Adding files to Master)
 input {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
 }
+<<<<<<< HEAD
 /*#endregion*/
 
 /*#region*/ //ADD USERS PAGE STYLES
@@ -32,3 +45,18 @@ input {
 /*#region*/ //RESULTS PAGE STYLES
 @import "results.scss";
 /*#endregion*/
+=======
+////////////////////////////////////////////////////////////////NUMBER INPUT STYLE
+///
+////////////////////////////////////////////////////////////////ADD USERS PAGE STYLES
+@import "addUsers.scss";
+////////////////////////////////////////////////////////////////ADD USERS PAGE STYLES
+/// 
+////////////////////////////////////////////////////////////////ADD GOODS PAGE STYLES
+@import "addGoods.scss";
+////////////////////////////////////////////////////////////////ADD GOODS PAGE STYLES
+/// 
+////////////////////////////////////////////////////////////////RESULTS PAGE STYLES
+@import "results.scss";
+////////////////////////////////////////////////////////////////RESULTS PAGE STYLES
+>>>>>>> 0e2dec6 (Adding files to Master)
