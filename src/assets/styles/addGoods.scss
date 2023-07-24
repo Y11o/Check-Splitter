@@ -1,0 +1,178 @@
+.goods_form {
+  font-family: $fontName;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  padding: 10px;
+  background-color: $myGolden;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .goods_form__goodCard {
+    .goods_form__cardsName {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+    .goods_form__cardsDescription {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      background-color: $myLightGolden;
+
+      .goods_form__cardsDescriptionContent {
+        // .goods_form__whoPaid {               /// Для будущих обновлений (указание человека, который платил за позицию и которому должны другие пользователи)
+        // }
+        .goods_form__whoAte {
+          margin: auto 5px;
+          display: flex;
+          flex-direction: row;
+          -webkit-user-select: none;
+
+          .goods_form__userName {
+            margin: 5px 20px;
+          }
+          .avatar {
+            margin: 3px 20px;
+
+            .avatarPink {
+              background-color: $myPink;
+            }
+            .avatarGreen {
+              background-color: $myGreen;
+            }
+          }
+
+          .goods_form__checkBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .goods_form__label {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: relative;
+              cursor: pointer;
+              user-select: none;
+
+              .goods_form__fakeCheckBox {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                border: 3px solid $myPink;
+                vertical-align: middle;
+                border-radius: 4px;
+                position: relative;
+
+                &::before {
+                  content: "";
+                  display: inline-block;
+                  width: 4px;
+                  height: 8px;
+
+                  border-right: 2px solid $myGreen;
+                  border-bottom: 2px solid $myGreen;
+
+                  position: absolute;
+                  left: 50%;
+                  top: 50%;
+                  transform: translate(-50%, -50%) rotate(45deg) scale(0);
+                  transition: all 0.2s;
+                }
+              }
+
+              .goods_form__checkbox {
+                position: absolute;
+                opacity: 0;
+                visibility: hidden;
+                &:checked + .goods_form__fakeCheckBox {
+                  border-color: $myGreen;
+                  &:before {
+                    transform: translate(-50%, -60%) rotate(45deg) scale(1);
+                  }
+                }
+              }
+
+              .goods_form__userName {
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .goods_form__list {
+    display: flex;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    justify-content: center;
+    border-color: $myPink;
+
+    .goods_form__input_form {
+      background-color: $myLightGolden;
+      color: $myGreen;
+
+      &:hover {
+        border-color: $myGreen;
+      }
+      &:focus {
+        border-color: $myGreen;
+        box-shadow: 2px 2px 2px 0px $myGreen;
+        filter: drop-shadow(2px 2px 2px $myGreen);
+      }
+    }
+
+    .goods_form__delete_good {
+      color: $myRed;
+      margin-left: 10px;
+      margin-bottom: 30px;
+      &:hover {
+        color: $myPink;
+      }
+    }
+  }
+
+  .goods_form__add_btn_form {
+    margin-top: 10px;
+
+    .goods_form__add_good {
+      color: $myWhite;
+      background-color: $myGreen;
+      border: none;
+      padding: 0px;
+
+      &:hover {
+        background-color: $myPink;
+      }
+    }
+
+    .error {
+      background-color: $myRed;
+    }
+  }
+
+  .goods_form__continue_btn_form {
+    display: flex;
+    justify-content: center;
+  }
+
+  .goods_form__continue_btn {
+    color: $myWhite;
+    font-size: 1em;
+    border: none;
+    border-radius: 20px;
+    background-color: $myGreen;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+
+    &:hover {
+      background-color: $myPink;
+    }
+  }
+}
