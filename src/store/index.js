@@ -29,4 +29,9 @@ export default createStore({      /// Создание хранилища Vuex
       context.commit('setGoods', goods);
     }
   },
+<<<<<<< HEAD
+=======
+  modules: {
+  }
+>>>>>>> 0e2dec6 (Adding files to Master)
 })
