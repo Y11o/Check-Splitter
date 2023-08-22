@@ -9,7 +9,6 @@
       <div class="goods_form">
         <!-- Форма добавления позиций -->
 <<<<<<< HEAD
-<<<<<<< HEAD
         <a-form class="goods">
           <a-space
             class="goods_form__list"
@@ -20,12 +19,6 @@
             class="goods_form__list"
             v-for="(good, index) in goods"
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-        <a-form class="goods">
-          <a-space
-            class="goods_form__list"
-            v-for="(good) in goods"
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
             :key="good.id"
             align="baseline"
           >
@@ -43,17 +36,12 @@
                 >
                   <a-input
 <<<<<<< HEAD
-<<<<<<< HEAD
                     :value="good.name"
                     @input="good.name = $event.target.value"
 =======
                     v-bind:value="goods[index].name"
                     @input="goods[index].name = $event.target.value"
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-                    :value="good.name"
-                    @input="good.name = $event.target.value"
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                     class="goods_form__input_form"
                     placeholder="Название"
                   />
@@ -68,17 +56,12 @@
                 >
                   <a-input
 <<<<<<< HEAD
-<<<<<<< HEAD
                     :value="good.price"
                     @input="good.price = $event.target.value"
 =======
                     v-bind:value="goods[index].price"
                     @input="goods[index].price = $event.target.value"
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-                    :value="good.price"
-                    @input="good.price = $event.target.value"
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                     class="goods_form__input_form"
                     type="number"
                     placeholder="Цена"
@@ -116,14 +99,10 @@
                           <a-avatar
                             v-if="
 <<<<<<< HEAD
-<<<<<<< HEAD
                               !good.goodDescribe.whoAte.includes(
 =======
                               !goods[index].goodDescribe.whoAte.includes(
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-                              !good.goodDescribe.whoAte.includes(
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                                 user.id
                               )
                             "
@@ -136,14 +115,10 @@
                           <a-avatar
                             v-if="
 <<<<<<< HEAD
-<<<<<<< HEAD
                               good.goodDescribe.whoAte.includes(user.id)
 =======
                               goods[index].goodDescribe.whoAte.includes(user.id)
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-                              good.goodDescribe.whoAte.includes(user.id)
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                             "
                             class="avatarGreen"
                             ><div v-if="user !== undefined">
@@ -159,14 +134,10 @@
                               class="goods_form__checkbox"
                               :value="user.id"
 <<<<<<< HEAD
-<<<<<<< HEAD
                               v-model="good.goodDescribe.whoAte"
 =======
                               v-model="goods[index].goodDescribe.whoAte"
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-                              v-model="good.goodDescribe.whoAte"
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                             />
                             <span class="goods_form__fakeCheckBox"></span>
                             <span class="goods_form__userName">
@@ -189,13 +160,9 @@
               @click="addGood"
               id="goodAdder"
 <<<<<<< HEAD
-<<<<<<< HEAD
               :class="{ errorName: nameFlag, errorCount: countFlag }"
 =======
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-              :class="{ errorName: nameFlag, errorCount: countFlag }"
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
               class="goods_form__add_good"
             >
               <PlusOutlined />
@@ -205,7 +172,6 @@
           <!-- Переход к подсчитанным результатм -->
           <a-form-item class="goods_form__continue_btn_form">
 <<<<<<< HEAD
-<<<<<<< HEAD
             <a-button class="goods_form__continue_btn" @click="checkGoods()">
               К результатам
             </a-button>
@@ -214,11 +180,6 @@
               >К результатам</a-button
             >
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-            <a-button class="goods_form__continue_btn" @click="checkGoods()">
-              К результатам
-            </a-button>
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
           </a-form-item>
         </a-form>
       </div>
@@ -246,15 +207,10 @@ export default {
   data() {
     return {
 <<<<<<< HEAD
-<<<<<<< HEAD
       nameFlag: false,
       countFlag: false,
 =======
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-      nameFlag: false,
-      countFlag: false,
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
       goods: [
         /// Список позиций
         {
@@ -296,7 +252,6 @@ export default {
         },
       };
 <<<<<<< HEAD
-<<<<<<< HEAD
       this.nameFlag = false;
       this.countFlag = false;
       this.goods.push(newGood);
@@ -306,12 +261,6 @@ export default {
       this.setGoods(); /// Обновление Store
       goodAdder.classList.remove("error"); /// Убирает с элемента кнопки для добавления позиции
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-      this.nameFlag = false;
-      this.countFlag = false;
-      this.goods.push(newGood);
-      this.setGoods(); /// Обновление Store
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
       goodAdder.innerHTML = "Добавь позицию"; /// стиль ошибки и меняет надпись на дефолтную
     },
     removeGood(item) {
@@ -325,16 +274,12 @@ export default {
     checkGoods() {
       /// Проверка корректности введеных данных
 <<<<<<< HEAD
-<<<<<<< HEAD
       if (this.goods.length < 2) this.countFlag = true; /// Проверка наличия хотя бы двух позиций
 =======
       let errorFlag = false;
       let countFlag = false;
       if (this.goods.length < 2) countFlag = true; /// Проверка наличия хотя бы двух позиций
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-      if (this.goods.length < 2) this.countFlag = true; /// Проверка наличия хотя бы двух позиций
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
       for (let index = 0; index < this.goods.length; index++) {
         /// Проверка указания имени, цены и пользователей, которые будут платить за позицию
         const element = this.goods[index];
@@ -347,7 +292,6 @@ export default {
           element.goodDescribe.whoAte === []
         ) {
 <<<<<<< HEAD
-<<<<<<< HEAD
           this.nameFlag = true;
         }
       }
@@ -359,22 +303,19 @@ export default {
         goodAdder.innerHTML = "Пожалуйста, введи хотя бы две позиции!";
 =======
           errorFlag = true;
-=======
-          this.nameFlag = true;
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
         }
       }
-      if (this.nameFlag) {
+      if (errorFlag) {
         /// Вывод ошибки об отсутсвии необходимых данных
+        goodAdder.classList.add("error");
         goodAdder.innerHTML = "Пожалуйста, введи всю информацию о позиции!";
-      } else if (this.countFlag) {
+        errorFlag = false;
+      } else if (countFlag) {
         /// Вывод ошибки о налиции менее двух позиций в списке
+        goodAdder.classList.add("error");
         goodAdder.innerHTML = "Пожалуйста, введи хотя бы две позиции!";
-<<<<<<< HEAD
         countFlag = false;
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
       } else {
         /// Если ошибки отсутсвуют
         let jsonGoods = [];
@@ -403,7 +344,6 @@ export default {
         this.goods.push({ id: Date.now(), name: "" });
         const goodsParsed = JSON.parse(storedGoods[elem]);
 <<<<<<< HEAD
-<<<<<<< HEAD
         this.goods[elem] = {...goodsParsed};
       }
     }
@@ -418,12 +358,6 @@ export default {
     this.goods.length = this.goods.length - 2; /// Удаление двух инициализированных в объявлении списка позиций
     localStorage.clear;
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-        this.goods[elem] = {...goodsParsed};
-      }
-    }
-    this.goods.length = this.goods.length - 2; /// Удаление двух инициализированных в объявлении списка позиций
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
   },
   beforeMount() {
     this.setGoods();
@@ -432,15 +366,11 @@ export default {
       this.users.push({ id: Date.now(), name: "" });
       const userParsed = JSON.parse(storedUsers[elem]);
 <<<<<<< HEAD
-<<<<<<< HEAD
       this.users[elem] = {...userParsed};
 =======
       this.users[elem].id = userParsed.id;
       this.users[elem].name = userParsed.name;
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-      this.users[elem] = {...userParsed};
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
     }
     this.$store.dispatch("loadUsers", this.users); /// Обновление хранилища Vuex (списка пользователей) на странице добавления позиций
   },
