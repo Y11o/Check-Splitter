@@ -1,6 +1,7 @@
 @import "variables.scss";       /// Импорт переменных для шрифта и цветов
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*#region*/ //MAIN PAGE STYLES
 @import "main.scss";
 /*#endregion*/
@@ -13,6 +14,13 @@
 ///
 ////////////////////////////////////////////////////////////////NUMBER INPUT STYLE
 >>>>>>> 0e2dec6 (Adding files to Master)
+=======
+/*#region*/ //MAIN PAGE STYLES
+@import "main.scss";
+/*#endregion*/
+
+/*#region*/ //NUMBER INPUT STYLE
+>>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   appearance: none;
@@ -22,15 +30,20 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 //ALL INPUTS ROUND STYLE
 =======
 ////////////////////////////////////////////////////////////////ALL INPUTS ROUND STYLE
 >>>>>>> 0e2dec6 (Adding files to Master)
+=======
+//ALL INPUTS ROUND STYLE
+>>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
 input {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 /*#endregion*/
 
@@ -49,14 +62,23 @@ input {
 ////////////////////////////////////////////////////////////////NUMBER INPUT STYLE
 ///
 ////////////////////////////////////////////////////////////////ADD USERS PAGE STYLES
+=======
+/*#endregion*/
+
+/*#region*/ //ADD USERS PAGE STYLES
+>>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
 @import "addUsers.scss";
-////////////////////////////////////////////////////////////////ADD USERS PAGE STYLES
-/// 
-////////////////////////////////////////////////////////////////ADD GOODS PAGE STYLES
+/*#endregion*/
+
+/*#region*/ //ADD GOODS PAGE STYLES
 @import "addGoods.scss";
-////////////////////////////////////////////////////////////////ADD GOODS PAGE STYLES
-/// 
-////////////////////////////////////////////////////////////////RESULTS PAGE STYLES
+/*#endregion*/
+
+/*#region*/ //RESULTS PAGE STYLES
 @import "results.scss";
+<<<<<<< HEAD
 ////////////////////////////////////////////////////////////////RESULTS PAGE STYLES
 >>>>>>> 0e2dec6 (Adding files to Master)
+=======
+/*#endregion*/
+>>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
