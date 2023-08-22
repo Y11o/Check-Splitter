@@ -1,7 +1,6 @@
 <template>
   <div class="main-title">
 <<<<<<< HEAD
-<<<<<<< HEAD
     <a-row type="flex" justify="center" align="top">
       <!-- Настройка сетки AntDV для устройств с разным размером экрана -->
       <a-col
@@ -12,17 +11,10 @@
       <a-col         
         :xs="{ span: 32 }"          
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-    <a-row type="flex" justify="center" align="top">
-      <!-- Настройка сетки AntDV для устройств с разным размером экрана -->
-      <a-col
-        :xs="{ span: 32 }"
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
         :sm="{ span: 18 }"
         :md="{ span: 16 }"
         :lg="{ span: 8 }"
       >
-<<<<<<< HEAD
 <<<<<<< HEAD
         <!-- Заголовок сайта -->
         <a-typography class="main-title__header">
@@ -42,16 +34,6 @@
             >Это просто!</a-typography-title
           >
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-        <!-- Заголовок сайта -->
-        <a-typography class="main-title__header">
-          <a-typography-title class="main-title__title">
-            Делим счёт
-          </a-typography-title>
-          <a-typography-title class="main-title__subtitle">
-            Это просто!
-          </a-typography-title>
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
         </a-typography>
         <!-- Кнопка для перехода на страницу добавления пользователей -->
         <div class="main-title__start-btn">
@@ -60,7 +42,6 @@
             type="primary"
             @click="$router.push('/addfriends')"
 <<<<<<< HEAD
-<<<<<<< HEAD
           >
             Начать!
           </a-button>
@@ -68,16 +49,10 @@
             >Начать!</a-button
           >
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-          >
-            Начать!
-          </a-button>
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
         </div>
         <!-- Краткая инструкция по работе с сайтом -->
         <div class="main-title__instruction">
           <a-typography class="main-title__frame">
-<<<<<<< HEAD
 <<<<<<< HEAD
             <a-typography-title class="main-title__mainHeader" :level="1">
               Как это работает?
@@ -99,17 +74,6 @@
                     >Шаг Первый</a-typography-title
                   >
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-            <a-typography-title class="main-title__mainHeader" :level="1">
-              Как это работает?
-            </a-typography-title>
-            <div class="main-title__mainBody">
-              <div>
-                <div class="main-title__card">
-                  <a-typography-title class="main-title__cardName" :level="2">
-                    Шаг Первый
-                  </a-typography-title>
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                   <UsergroupAddOutlined class="main-title__icon" />
                   <a-typography-paragraph class="main-title__cardBody">
                     Добавляй всех своих друзей, кто был с тобой и что-то пил или
@@ -122,7 +86,6 @@
                 <div></div>
                 <div class="main-title__card">
 <<<<<<< HEAD
-<<<<<<< HEAD
                   <a-typography-title class="main-title__cardName" :level="2">
                     Шаг Второй
                   </a-typography-title>
@@ -131,11 +94,6 @@
                     >Шаг Второй</a-typography-title
                   >
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-                  <a-typography-title class="main-title__cardName" :level="2">
-                    Шаг Второй
-                  </a-typography-title>
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                   <ContainerOutlined class="main-title__icon" />
                   <a-typography-paragraph class="main-title__cardBody">
                     Укажи позицию из чека. Затем отметь тех, кто будет за неё
@@ -152,7 +110,6 @@
                     :level="2"
                     style="margin-bottom: 5px"
 <<<<<<< HEAD
-<<<<<<< HEAD
                   >
                     Шаг Третий
                   </a-typography-title>
@@ -160,11 +117,6 @@
                     >Шаг Третий</a-typography-title
                   >
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-                  >
-                    Шаг Третий
-                  </a-typography-title>
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
                   <HeartFilled
                     style="color: #b22222"
                     class="main-title__icon"
@@ -192,16 +144,11 @@ import {
 
 export default {
 <<<<<<< HEAD
-<<<<<<< HEAD
   components: {
     /// Компоненты из AntDV
 =======
   components: {             /// Компоненты из AntDV
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-  components: {
-    /// Компоненты из AntDV
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
     UsergroupAddOutlined,
     ContainerOutlined,
     HeartFilled,
@@ -211,12 +158,8 @@ export default {
 
 <style lang="scss" scoped>
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* fonts 300-600 */ /// Стили для Main.vue в src\assets\styles\styles.scss
 =======
 /* fonts 300-600 */         /// Стили для Main.vue в src\assets\styles\styles.scss
 >>>>>>> 0e2dec6 (Adding files to Master)
-=======
-/* fonts 300-600 */ /// Стили для Main.vue в src\assets\styles\styles.scss
->>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
 </style>
