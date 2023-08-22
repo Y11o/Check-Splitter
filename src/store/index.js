@@ -30,8 +30,11 @@ export default createStore({      /// Создание хранилища Vuex
     }
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   modules: {
   }
 >>>>>>> 0e2dec6 (Adding files to Master)
+=======
+>>>>>>> 351fdf1 (MR ISSUES FIXED EXCEPT 2,4,13,16,20)
 })
