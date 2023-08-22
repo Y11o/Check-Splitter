@@ -1,16 +1,21 @@
 <template>
   <a-row type="flex" justify="center" align="top">
-    <a-col :xs="{span: 32}" :sm="{span: 18}" :md="{span: 16}" :lg="{span: 8}">
+    <a-col
+      :xs="{ span: 32 }"
+      :sm="{ span: 18 }"
+      :md="{ span: 16 }"
+      :lg="{ span: 8 }"
+    >
       <div class="friendsList">
         <!-- Форма со списком пользователей -->
-        <a-form @submit.prevent class="list_form">
+        <a-form class="list_form">
           <a-space
             class="list"
             v-for="(user, index) in users"
             :key="user.id"
             align="baseline"
           >
-          <!-- Настройка цвета у аватара пользователя (четные -- зеленый, нечетные -- розовый). На аватаре отрисовывается первая буква имени -->
+            <!-- Настройка цвета у аватара пользователя (четные -- зеленый, нечетные -- розовый). На аватаре отрисовывается первая буква имени -->
             <a-avatar v-if="index % 2 === 1" class="avatarPink"
               ><div v-if="user.name !== undefined">
                 {{ user.name[0] }}
@@ -31,8 +36,8 @@
             >
               <a-input
                 class="input_form"
-                v-bind:value="users[index].name"
-                @input="users[index].name = $event.target.value"
+                :value="user.name"
+                @input="user.name = $event.target.value"
                 placeholder="Имя друга"
               />
             </a-form-item>
@@ -45,7 +50,7 @@
           </a-space>
           <!-- Кнопка добавления пользователя. Добавляет новую форму ввода имени. Также с иконкой из AntDV -->
           <a-form-item class="add_btn_form">
-            <a-button class="add_friend" id="addFriend" block @click="addUser">
+            <a-button class="add_friend" id="addFriend" block @click="addUser" :class="{ errorName: nameFlag, errorCount: countFlag }">
               <PlusOutlined />
               Добавь друга
             </a-button>
@@ -55,10 +60,7 @@
           <a-form-item class="continue_btn_form">
             <a-button
               class="continue_btn"
-              @click="
-                $store.commit('setUsers(users)');
-                checkFriends();
-              "
+              @click="checkFriends()"
             >
               Далее
             </a-button>
@@ -74,12 +76,15 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import router from "@/router/index.js";
 export default {
   components: {
-    DeleteOutlined,   /// Импорт иконок из AntDV
+    DeleteOutlined, /// Импорт иконок из AntDV
     PlusOutlined,
   },
   data() {
     return {
-      users: [        /// Массив пользователей. Первично иницилизируется двумя пользователями без имени
+      nameFlag: false,
+      countFlag: false,
+      users: [
+        /// Массив пользователей. Первично иницилизируется двумя пользователями без имени
         {
           id: Date.now() + 1,
           name: "",
@@ -92,58 +97,64 @@ export default {
     };
   },
   methods: {
-    setUsers() {        /// Загружает пользователей в Store (хранилище Vuex)
+    setUsers() {
+      /// Загружает пользователей в Store (хранилище Vuex)
       this.$store.dispatch("loadUsers", this.users);
     },
-    addUser() {         /// Добавляет пользователя в список пользователей (добавляет новую пустую форму на страницу, в которую необходимо ввести имя)
+    addUser() {
+      /// Добавляет пользователя в список пользователей (добавляет новую пустую форму на страницу, в которую необходимо ввести имя)
       const newUser = {
         id: Date.now(),
         name: "",
       };
+      this.countFlag = false;
+      this.nameFlag = false;
       this.users.push(newUser);
-      this.setUsers();                        /// Обновление Store
-      addFriend.classList.remove("error");    /// Убирает с элемента кнопки для добавления пользователя 
-      addFriend.innerHTML = "Добавь друга";   /// стиль ошибки и меняет надпись на дефолтную
+      this.setUsers(); /// Обновление Store
+      addFriend.innerHTML = "Добавь друга"; /// стиль ошибки и меняет надпись на дефолтную
     },
-    removeUser(item) {                        /// Удаление пользователя из массива
+    removeUser(item) {
+      /// Удаление пользователя из массива
       let index = this.users.indexOf(item);
       if (index !== -1) {
         this.users.splice(index, 1);
       }
-      this.setUsers();                        /// Обновление Store
+      this.setUsers(); /// Обновление Store
     },
-    checkFriends() {                          /// Проверка корректности введенных данных на странице, срабатывает при нажатии кнопки "Далее"
-      let nameFlag = false;
-      let countFlag = false;
-      if (this.users.length < 2) countFlag = true;      /// Проверка, что пользователей больше 1
+    checkFriends() {
+      /// Проверка корректности введенных данных на странице, срабатывает при нажатии кнопки "Далее"
+      this.nameFlag = false;
+      this.nameFlag = false;
+      if (this.users.length < 2) this.countFlag = true; /// Проверка, что пользователей больше 1
       for (let index = 0; index < this.users.length; index++) {
         const element = this.users[index];
-        if (element.name === "" || element.name === " ") {    /// Проверка наличия имени у всех пользователей 
-          nameFlag = true;                                    
+        if (element.name === "" || element.name === " ") {
+          /// Проверка наличия имени у всех пользователей
+          this.nameFlag = true;
         }
       }
-      if (nameFlag) {                                          /// Отображение ошибки: у пользователя отсутсвует имя
-        addFriend.classList.add("error");
+      if (this.nameFlag) {
+        /// Отображение ошибки: у пользователя отсутсвует имя
         addFriend.innerHTML = "Пожалуйста, введи имя друга!";
-        nameFlag = false;
-      } else if (countFlag) {                                  /// Отображение ошибки: пользователей меньше 2
-        addFriend.classList.add("error");
+      } else if (this.countFlag) {
+        /// Отображение ошибки: пользователей меньше 2
         addFriend.innerHTML = "Пожалуйста, введи имена хотя бы двух друзей!";
-        countFlag = false;
-      } else {                                                 /// Если проверка прошла успешно
+      } else {
+        /// Если проверка прошла успешно
         let jsonUsers = [];
         for (let elem = 0; elem < this.users.length; elem++) {
           const element = JSON.stringify(this.users[elem]);
           jsonUsers.push(element);
         }
-        localStorage.setItem("storedUsersData", JSON.stringify(jsonUsers));   /// Сохранение массива пользователей в localStorage в объект storedUsersData
-        this.setUsers();                                                      /// Сохранение в Store (Vuex)
-        router.push("/addgoods");                                             /// Переход на страницу добавления позиций чека
+        localStorage.setItem("storedUsersData", JSON.stringify(jsonUsers)); /// Сохранение массива пользователей в localStorage в объект storedUsersData
+        this.setUsers(); /// Сохранение в Store (Vuex)
+        router.push("/addgoods"); /// Переход на страницу добавления позиций чека
       }
     },
   },
   mounted() {
-    if (localStorage.storedUsersData) {                             /// Развертка данных из localStorage из объекта storedUsersData при его наличии
+    if (localStorage.storedUsersData) {
+      /// Развертка данных из localStorage из объекта storedUsersData при его наличии
       let storedUsers = JSON.parse(localStorage.storedUsersData);
       for (let elem = 0; elem < storedUsers.length; elem++) {
         this.users.push({ id: Date.now(), name: "" });
@@ -152,15 +163,14 @@ export default {
         this.users[elem].name = userParsed.name;
       }
     }
-    this.users.length = this.users.length - 2;                      /// Убираем двух лишних, инициализированных по умолчанию пользователей
-    localStorage.clear;
+    this.users.length = this.users.length - 2; /// Убираем двух лишних, инициализированных по умолчанию пользователей
   },
   beforeMount() {
-    this.setUsers();                                                /// Отображаем Store (без этой функции в beforeMounted Store не отображался при загрузке страницы)
+    this.setUsers(); /// Отображаем Store (без этой функции в beforeMounted Store не отображался при загрузке страницы)
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/styles.scss';
+@import "@/assets/styles/styles.scss";
 </style>
