@@ -29,6 +29,4 @@ export default createStore({      /// Создание хранилища Vuex
       context.commit('setGoods', goods);
     }
   },
-  modules: {
-  }
 })

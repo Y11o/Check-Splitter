@@ -56,8 +56,10 @@
           background-color: $myPink;
         }
       }
-  
-      .error {
+      .errorName {
+        background-color: $myRed;
+      }
+      .errorCount {
         background-color: $myRed;
       }
     }
