@@ -1,9 +1,5 @@
 <template>
-<<<<<<< HEAD
   <div id="app">
-=======
-  <div  id="app">
->>>>>>> 0e2dec6 (Adding files to Master)
     <router-view></router-view> 
   </div>
 </template>

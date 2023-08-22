@@ -32,8 +32,5 @@ const router = createRouter({
   routes
 })
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 0e2dec6 (Adding files to Master)
 export default router
