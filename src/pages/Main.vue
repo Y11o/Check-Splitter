@@ -107,5 +107,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* fonts 300-600 */ /// Стили для Main.vue в src\assets\styles\styles.scss
+@import "@/assets/styles/styles.scss";
 </style>
