@@ -153,7 +153,7 @@ import {
 import store from "@/store/index.js";
 import { ref } from "vue";
 import router from "@/router/index.js";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   components: {
     DeleteOutlined,
@@ -247,12 +247,17 @@ export default {
   beforeMount() {
     this.setGoods();
     this.$store.commit("setUsersFromStorage");
-    this.users = this.getUsersFromStore;
+    this.users = this.storeUsers; // Из mapState
     this.$store.commit("setGoodsFromStorage");
-    this.goods = this.getGoodsFromStore;
+    this.goods = this.getGoodsFromStore; // Из mapGetters
   },
   computed: {
-    ...mapGetters(["getUsersFromStore", "getGoodsFromStore"]),
+    ...mapGetters(["getUsersFromStore", "getGoodsFromStore"]), /// Пример с mapGetters
+    ...mapState({
+      /// Пример с mapState
+      storeUsers: (state) => state.users,
+      storeUsersAlias: "storeUsers",
+    }),
   },
 };
 </script>

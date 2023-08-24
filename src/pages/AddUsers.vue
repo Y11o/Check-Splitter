@@ -50,7 +50,13 @@
           </a-space>
           <!-- Кнопка добавления пользователя. Добавляет новую форму ввода имени. Также с иконкой из AntDV -->
           <a-form-item class="add_btn_form">
-            <a-button class="add_friend" id="addFriend" block @click="addUser" :class="{ errorName: nameFlag, errorCount: countFlag }">
+            <a-button
+              class="add_friend"
+              id="addFriend"
+              block
+              @click="addUser"
+              :class="{ errorName: nameFlag, errorCount: countFlag }"
+            >
               <PlusOutlined />
               Добавь друга
             </a-button>
@@ -58,10 +64,7 @@
           <!-- Кнопка перехода на страницу с добавлением позиций. 
           При нажатии выполняется проверка (введены ли имена у всех пользователей и добавлено ли более одного пользователя). -->
           <a-form-item class="continue_btn_form">
-            <a-button
-              class="continue_btn"
-              @click="checkFriends()"
-            >
+            <a-button class="continue_btn" @click="checkFriends()">
               Далее
             </a-button>
           </a-form-item>
@@ -74,7 +77,7 @@
 <script>
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import router from "@/router/index.js";
-import { mapGetters } from 'vuex';
+import { mapState } from "vuex";
 export default {
   components: {
     DeleteOutlined, /// Импорт иконок из AntDV
@@ -146,10 +149,14 @@ export default {
   beforeMount() {
     this.setUsers(); /// Отображаем Store (без этой функции в beforeMounted Store не отображался при загрузке страницы)
     this.$store.commit("setUsersFromStorage");
-    this.users = this.getUsersFromStore;
+    this.users = this.storeUsers;
   },
   computed: {
-    ...mapGetters(['getUsersFromStore'])
+    ...mapState({
+      /// Пример с mapState
+      storeUsers: (state) => state.users,
+      storeUsersAlias: "storeUsers",
+    }),
   },
 };
 </script>
