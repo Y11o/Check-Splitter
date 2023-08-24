@@ -11,7 +11,7 @@
         <a-form class="goods">
           <a-space
             class="goods_form__list"
-            v-for="(good) in goods"
+            v-for="good in goods"
             :key="good.id"
             align="baseline"
           >
@@ -80,11 +80,7 @@
                         <!-- Аватар меняет цвет при выборе пользователя. По дефолту розовый цвет, при выборе этого пользователя аватар станет зелёным -->
                         <div class="avatar">
                           <a-avatar
-                            v-if="
-                              !good.goodDescribe.whoAte.includes(
-                                user.id
-                              )
-                            "
+                            v-if="!good.goodDescribe.whoAte.includes(user.id)"
                             class="avatarPink"
                             ><div v-if="user !== undefined">
                               {{ user.name[0] }}
@@ -92,9 +88,7 @@
                           >
 
                           <a-avatar
-                            v-if="
-                              good.goodDescribe.whoAte.includes(user.id)
-                            "
+                            v-if="good.goodDescribe.whoAte.includes(user.id)"
                             class="avatarGreen"
                             ><div v-if="user !== undefined">
                               {{ user.name[0] }}
@@ -159,6 +153,7 @@ import {
 import store from "@/store/index.js";
 import { ref } from "vue";
 import router from "@/router/index.js";
+import { mapGetters } from "vuex";
 export default {
   components: {
     DeleteOutlined,
@@ -206,6 +201,8 @@ export default {
     },
     checkGoods() {
       /// Проверка корректности введеных данных
+      this.nameFlag = false;
+      this.countFlag = false;
       if (this.goods.length < 2) this.countFlag = true; /// Проверка наличия хотя бы двух позиций
       for (let index = 0; index < this.goods.length; index++) {
         /// Проверка указания имени, цены и пользователей, которые будут платить за позицию
@@ -247,26 +244,15 @@ export default {
       activeKey,
     };
   },
-  mounted() {
-    if (localStorage.storedGoodsData) {
-      /// Запись элементов из localStorage из объекта storedGoodsData (при его наличии) в массив позиций
-      let storedGoods = JSON.parse(localStorage.storedGoodsData);
-      for (let elem = 0; elem < storedGoods.length; elem++) {
-        this.goods.push({ id: Date.now(), name: "" });
-        const goodsParsed = JSON.parse(storedGoods[elem]);
-        this.goods[elem] = {...goodsParsed};
-      }
-    }
-  },
   beforeMount() {
     this.setGoods();
-    let storedUsers = JSON.parse(localStorage.storedUsersData); /// Создание списка пользователей из объекта storedUsersData в localStorage
-    for (let elem = 0; elem < storedUsers.length; elem++) {
-      this.users.push({ id: Date.now(), name: "" });
-      const userParsed = JSON.parse(storedUsers[elem]);
-      this.users[elem] = {...userParsed};
-    }
-    this.$store.dispatch("loadUsers", this.users); /// Обновление хранилища Vuex (списка пользователей) на странице добавления позиций
+    this.$store.commit("setUsersFromStorage");
+    this.users = this.getUsersFromStore;
+    this.$store.commit("setGoodsFromStorage");
+    this.goods = this.getGoodsFromStore;
+  },
+  computed: {
+    ...mapGetters(["getUsersFromStore", "getGoodsFromStore"]),
   },
 };
 </script>

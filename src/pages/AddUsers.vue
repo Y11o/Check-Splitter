@@ -74,6 +74,7 @@
 <script>
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import router from "@/router/index.js";
+import { mapGetters } from 'vuex';
 export default {
   components: {
     DeleteOutlined, /// Импорт иконок из AntDV
@@ -114,7 +115,7 @@ export default {
     checkFriends() {
       /// Проверка корректности введенных данных на странице, срабатывает при нажатии кнопки "Далее"
       this.nameFlag = false;
-      this.nameFlag = false;
+      this.countFlag = false;
       if (this.users.length < 2) this.countFlag = true; /// Проверка, что пользователей больше 1
       for (let index = 0; index < this.users.length; index++) {
         const element = this.users[index];
@@ -142,20 +143,13 @@ export default {
       }
     },
   },
-  mounted() {
-    if (localStorage.storedUsersData) {
-      /// Развертка данных из localStorage из объекта storedUsersData при его наличии
-      let storedUsers = JSON.parse(localStorage.storedUsersData);
-      for (let elem = 0; elem < storedUsers.length; elem++) {
-        this.users.push({ id: Date.now(), name: "" });
-        const userParsed = JSON.parse(storedUsers[elem]);
-        this.users[elem].id = userParsed.id;
-        this.users[elem].name = userParsed.name;
-      }
-    }
-  },
   beforeMount() {
     this.setUsers(); /// Отображаем Store (без этой функции в beforeMounted Store не отображался при загрузке страницы)
+    this.$store.commit("setUsersFromStorage");
+    this.users = this.getUsersFromStore;
+  },
+  computed: {
+    ...mapGetters(['getUsersFromStore'])
   },
 };
 </script>
