@@ -170,27 +170,7 @@ export default {
     return {
       nameFlag: false,
       countFlag: false,
-      goods: [
-        /// Список позиций
-        {
-          id: Date.now() + 1, /// Уникальный ID позиции
-          name: "", /// Название позиции
-          price: undefined, /// Цена позиции
-          goodDescribe: {
-            whoPaid: "", /// Для будущих обновлений (указание человека, который платил за позицию и которому должны другие пользователи)
-            whoAte: [], /// Между кем будет делится стоимость позиции
-          },
-        },
-        {
-          id: Date.now() + 2,
-          name: "",
-          price: undefined,
-          goodDescribe: {
-            whoPaid: "",
-            whoAte: [],
-          },
-        },
-      ],
+      goods: [],
       users: [], /// Список пользователей
     };
   },
@@ -277,7 +257,6 @@ export default {
         this.goods[elem] = {...goodsParsed};
       }
     }
-    this.goods.length = this.goods.length - 2; /// Удаление двух инициализированных в объявлении списка позиций
   },
   beforeMount() {
     this.setGoods();

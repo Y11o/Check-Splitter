@@ -83,17 +83,7 @@ export default {
     return {
       nameFlag: false,
       countFlag: false,
-      users: [
-        /// Массив пользователей. Первично иницилизируется двумя пользователями без имени
-        {
-          id: Date.now() + 1,
-          name: "",
-        },
-        {
-          id: Date.now() + 2,
-          name: "",
-        },
-      ],
+      users: [],
     };
   },
   methods: {
@@ -163,7 +153,6 @@ export default {
         this.users[elem].name = userParsed.name;
       }
     }
-    this.users.length = this.users.length - 2; /// Убираем двух лишних, инициализированных по умолчанию пользователей
   },
   beforeMount() {
     this.setUsers(); /// Отображаем Store (без этой функции в beforeMounted Store не отображался при загрузке страницы)
