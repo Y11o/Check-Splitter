@@ -57,8 +57,8 @@ export default {
     const setArrays = () => {
       let storedUsers = JSON.parse(localStorage.storedUsersData); /// Распаковка массива пользователей из localStorage.storedUsersData
       let storedGoods = JSON.parse(localStorage.storedGoodsData); /// Распаковка массива позиций из localStorage.storedGoodsData
-      const goodsToVuexStore = storedGoods.map(item => JSON.parse(item)); /// Установка значений в массив
-      const usersToVuexSrote = storedUsers.map(item => JSON.parse(item));
+      const goodsToVuexStore = storedGoods.map((item) => JSON.parse(item)); /// Установка значений в массив
+      const usersToVuexSrote = storedUsers.map((item) => JSON.parse(item));
 
       store.dispatch("loadGoods", goodsToVuexStore); /// Заполнение Store (vuex) на странице результатов
       store.dispatch("loadUsers", usersToVuexSrote); /// значениями распакованных массивов
@@ -104,8 +104,12 @@ export default {
     };
   },
   beforeCreate() {
-    this.setArrays(); /// Заполнение массивов перед загрузкой компонента
-    this.countDebt(); /// Вызов функции подсчёта долга
+    if (localStorage.length === 0) {
+      this.$router.push("/");
+    } else {
+      this.setArrays(); /// Заполнение массивов перед загрузкой компонента
+      this.countDebt(); /// Вызов функции подсчёта долга
+    }
   },
 };
 </script>
